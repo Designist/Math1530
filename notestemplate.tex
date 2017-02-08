@@ -1,0 +1,210 @@
+\documentclass{article}
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%% PACKAGES
+%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+
+\usepackage{blindtext}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage[margin=1.5in]{geometry}
+\usepackage{multicol}
+\usepackage{parskip}
+\usepackage{titlesec}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage{pagecolor}
+\usepackage{tcolorbox}
+\usepackage{tikz}
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%% TCOLORBOX
+%%%%%%%%%%%%%%%%%
+\tcbuselibrary{theorems}
+\tcbuselibrary{skins}
+\usepackage{cleveref}
+
+\tcbset{
+defstyle/.style={fonttitle=\bfseries\upshape, fontupper=\slshape,
+arc=0mm, colback=blue!5!white,colframe=blue!75!black},
+theostyle/.style={fonttitle=\bfseries\upshape, fontupper=\slshape,
+colback=red!10!white,colframe=red!75!black},
+}
+
+\newtcbtheorem[number within=subsection,crefname={definition}{definitions}]{Definition}{Definition}{defstyle}{def}
+\newtcbtheorem[use counter from=Definition,crefname={theorem2}{theorems}]{Theorem}{Theorem}{theostyle}{theo}
+\newtcbtheorem[use counter from=Definition,crefname={corollary}{corollaries}]{Corollary}{Corollary}{theostyle}{cor}
+\newtcbtheorem[use counter from=Definition,crefname={lemma}{lemmas}]{Lemma}{Lemma}{theostyle}{lem}
+
+\newtcbtheorem[use counter from=Definition]{theorem}{Theorem}{theorem style=break,colback=blue!10!white,coltitle=blue!50!black,fonttitle=\upshape\bfseries,fontupper=\itshape,drop fuzzy shadow=blue!50!black!50!white,boxrule=0.1pt, sharpish corners, description delimiters={}{}, separator sign colon, terminator sign={}}{theo}
+\newtcbtheorem[use counter from=Definition]{corollary}{Corollary}{theorem style=break,colback=blue!10!white,coltitle=blue!50!black,fonttitle=\upshape\bfseries,fontupper=\itshape,drop fuzzy shadow=blue!50!black!50!white,boxrule=0.1pt, sharpish corners, description delimiters={}{}, separator sign colon, terminator sign={}}{theo}
+\newtcbtheorem[use counter from=Definition]{definition}{Definition}{theorem style=plain,enhanced,colframe=blue!50!black,colback=yellow!20!white,coltitle=red!50!black,fonttitle=\upshape\bfseries,fontupper=\itshape,boxrule=0.1pt, sharpish corners, description delimiters={}{}, terminator sign={:}}{theo}
+\newtcbtheorem[use counter from=Definition]{lemma}{Lemma}{theorem style=break,colback=Lavender!20,coltitle=Fuchsia,fonttitle=\upshape\bfseries,fontupper=\itshape,drop fuzzy shadow=blue!50!black!50!white,boxrule=0.1pt, sharpish corners, description delimiters={}{}, separator sign colon, terminator sign={}}{theo}
+
+\theoremstyle{plain}
+% \newtheorem{lemma}{Lemma}
+
+% \tcolorboxenvironment{lemma}{enhanced jigsaw,colframe=Lavender,interior hidden,before skip=10pt,after skip=10pt, sharpish corners}
+\tcolorboxenvironment{proof}{blanker,left=5mm,before skip=10pt,after skip=10pt,borderline west={1mm}{0pt}{Maroon}}
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%% COMMANDS
+%%%%%%%%%%%%%%%%%
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\U}{\mathscr{U}}
+
+\newcommand{\cm}[1]{} % in-line comments
+\newcommand{\fakeline}{~\\ \vspace{-1cm}}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\newcommand{\HRuleRed}{\textcolor{Maroon}{\rule{\linewidth}{0.5mm}}}
+\newcommand{\image}[1]{\begin{center}\includegraphics[width=\textwidth]{#1}\end{center}} % full-width image
+
+\newcommand{\ol}[1]{\overline{#1}}
+
+\newcommand{\rainbow}{\begin{tikzpicture}[x=1mm,y=1mm]
+  \colorlet{color min hsb}[hsb]{red}
+  \colorlet{color max hsb}[hsb]{magenta}
+  \foreach \pos in {0,...,140}{
+    \colorlet{my color hsb}[rgb]{color max hsb!\pos!color min hsb}
+    \fill[fill=my color hsb,draw=white] (\pos,1) rectangle +(1mm,1mm);
+  }
+\end{tikzpicture}}
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%% TITLE INFO
+%%%%%%%%%%%%%%%%%
+\title{Notes for Abstract Algebra}
+\author{Nicholas Tomlin}
+\date{\today}
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%% HEADER INFO
+%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+\lhead{Nicholas Tomlin}
+\chead{}
+\rhead{MATH 1530: Abstract Algebra}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% TESTING
+%%%%%%%%%%%%%%%%%
+\newcounter{examplecounter}
+\renewcommand{\theexamplecounter}{\arabic{examplecounter}}
+
+\newenvironment{example}[1]{%
+\vspace{-0.35cm}
+\rule{\linewidth}{0.1mm}
+
+\refstepcounter{examplecounter}%
+\noindent\textbf{Example~\theexamplecounter}:}
+{\\[0.01in]\rule{\linewidth}{0.1mm}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% BEGIN DOCUMENT %%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+% \maketitle
+\thispagestyle{empty}
+\begin{center}
+\textsc{\Large MATH 1530: Abstract Algebra}\\[0.4cm]
+\textsc{\large Spring 2017}\\[0.2cm]
+
+\HRuleRed\\[0.4cm]
+{ \huge \bfseries Notes for Abstract Algebra}\\[0.1cm]
+\HRuleRed\\[0.2cm]
+
+\Large \textsc{Nicholas Tomlin}
+\end{center}
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%
+%%%%%% SECTION: GROUPS
+%%%%%%%%%%%%%%%%%
+\section{Groups}
+
+\subsection{What is a group?}
+
+\blindtext
+
+\begin{definition}{}{}
+A \textbf{dog} is an animal with four legs that wears pants on the back two legs.
+\end{definition}
+
+\blindtext
+
+\subsection{Abelian groups}
+
+\blindtext
+
+\begin{theorem}{Mittelwertsatz f\"{u}r $n$ Variable}{}
+Es sei $n\in\mathbb{N}$, $D\subseteq\mathbb{R}^n$ eine offene Menge und
+$f\in C^{1}(D,\mathbb{R})$. Dann gibt es auf jeder Strecke
+$[x_0,x]\subset D$ einen Punkt $\xi\in[x_0,x]$, so dass gilt
+\begin{equation*}
+f(x)-f(x_0) = \operatorname{grad} f(\xi)^{\top}(x-x_0)
+\end{equation*}
+\end{theorem}
+
+\begin{proof}
+\blindtext
+\end{proof}
+
+\begin{corollary}{Mittelwertsatz f\"{u}r $\delta-\epsilon$ limit}{}
+Es sei $n\in\mathbb{N}$, $D\subseteq\mathbb{R}^n$ eine offene Menge und
+$f\in C^{1}(D,\mathbb{R})$. Dann gibt es auf jeder Strecke
+$[x_0,x]\subset D$ einen Punkt $\xi\in[x_0,x]$, so dass gilt
+\begin{equation*}
+f(x)-f(x_0) = \operatorname{grad} f(\xi)^{\top}(x-x_0)
+\end{equation*}
+\end{corollary}
+\blindtext
+
+%%%%%%%%%%%%%%%%%
+%%%%%%% SECTION: RINGS
+%%%%%%%%%%%%%%%%%
+\section{Rings}
+\blindtext
+\subsection{Polynomial rings}
+\blindtext
+\begin{lemma}{Jet Fuel Can't Melt Steel Beams}{}
+\blindtext
+\end{lemma}
+\begin{theorem}{Mittelwertsatz f\"{u}r $n$ Variable}{}
+Es sei $n\in\mathbb{N}$, $D\subseteq\mathbb{R}^n$ eine offene Menge und
+$f\in C^{1}(D,\mathbb{R})$. Dann gibt es auf jeder Strecke
+$[x_0,x]\subset D$ einen Punkt $\xi\in[x_0,x]$, so dass gilt
+\begin{equation*}
+f(x)-f(x_0) = \operatorname{grad} f(\xi)^{\top}(x-x_0)
+\end{equation*}
+\end{theorem}
+The proof of the above theorem is left as an exercise to the reader. We, the authors of these notes, wish you eternal suffering and despair as you attempt to read this (possibly fake) theorem in German.
+
+\subsection{Quotient rings}
+\blindtext
+
+\begin{example}{}
+\blindtext
+$$a^n + b^n \ne c^n \text{ where } n\ge 3$$
+\blindtext
+\end{example}
+
+\subsection{Engagement rings}
+\blindtext[2]
+\image{ring.jpg}
+
+\end{document}
