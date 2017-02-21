@@ -758,7 +758,7 @@ Here are some examples of cyclic groups (and non-cyclic groups):
 If $H = \langle x \rangle$, then $|H| = |x|$ (i.e., if $|x| = \infty$, then $|H| = \infty$)
 \end{lemma}
 \begin{proof}
-First, consider the case that $|x| = n$ is finite. Then we claim that $$H = \{ 1,x,\ldots,x^{n-1} \}$$ and these are all distinct. If instead $x^a = x^b$ for some $x \le a < b < n$, then $1=x^{b-a}$, contradicting $|x| = n$. To show that $H$ does indeed equal this set,\footnote{In general, to show that any two sets $A$ and $E$ are equal, it is standard to show that $A \subseteq E$ and $E \subseteq A$.} we need to show that $H \supseteq \{ 1,x,\ldots,x^{n-1} \}$ (the reverse direction is by definition). Indeed, given $x^t \in H$ for some $t \in \Z$, then by the division algorithm $t = qn + r$ for some $0 \le r < n$. Then:
+First, consider the case that $|x| = n$ is finite. Then we claim that $$H = \{ 1,x,\ldots,x^{n-1} \}$$ and these are all distinct. If instead $x^a = x^b$ for some $0 \le a < b < n$, then $1=x^{b-a}$, contradicting $|x| = n$. To show that $H$ does indeed equal this set,\footnote{In general, to show that any two sets $A$ and $E$ are equal, it is standard to show that $A \subseteq E$ and $E \subseteq A$.} we need to show that $H \supseteq \{ 1,x,\ldots,x^{n-1} \}$ (the reverse direction is by definition). Indeed, given $x^t \in H$ for some $t \in \Z$, then by the division algorithm $t = qn + r$ for some $0 \le r < n$. Then:
 $$x^t = x^{qn+r} = x^{nq} x^r \in \{ 1,\ldots,x^n \}$$
 Now, suppose $|x|$ infinite. Then, we'll claim $\{ \ldots, x^{-1},1,x,x^2,\ldots \}$ are all distinct. Indeed, if $x^a = x^b$ for $a < b$, then $x^{b-a} = 1$ is a contradiction.
 \end{proof}
