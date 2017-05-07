@@ -1,0 +1,1127 @@
+\documentclass{article}
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%% PACKAGES
+%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{wasysym}
+
+\usepackage{blindtext}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage[margin=1.5in]{geometry}
+\usepackage{multicol}
+\usepackage{parskip}
+\usepackage{titlesec}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage{pagecolor}
+\usepackage{tcolorbox}
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usepackage{tkz-berge}
+\usepackage{pst-node}
+\usepackage{tikz-cd} 
+\usetikzlibrary{arrows, automata, backgrounds, petri, topaths, shapes}
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%% TCOLORBOX
+%%%%%%%%%%%%%%%%%
+\tcbuselibrary{theorems}
+\tcbuselibrary{skins}
+\usepackage{cleveref}
+
+\tcbset{
+defstyle/.style={fonttitle=\bfseries\upshape, fontupper=\slshape,
+arc=0mm, colback=blue!5!white,colframe=blue!75!black},
+theostyle/.style={fonttitle=\bfseries\upshape, fontupper=\slshape,
+colback=red!10!white,colframe=red!75!black},
+}
+
+\newtcbtheorem[number within=subsection,crefname={definition}{definitions}]{Definition}{Definition}{defstyle}{def}
+\newtcbtheorem[use counter from=Definition,crefname={theorem2}{theorems}]{Theorem}{Theorem}{theostyle}{theo}
+\newtcbtheorem[use counter from=Definition,crefname={corollary}{corollaries}]{Corollary}{Corollary}{theostyle}{cor}
+\newtcbtheorem[use counter from=Definition,crefname={lemma}{lemmas}]{Lemma}{Lemma}{theostyle}{lem}
+
+\newtcbtheorem[use counter from=Definition]{theorem}{Theorem}{theorem style=break,colback=blue!10!white,coltitle=blue!50!black,fonttitle=\upshape\bfseries,fontupper=\itshape,drop fuzzy shadow=blue!50!black!50!white,boxrule=0.1pt, sharpish corners, description delimiters={}{}, separator sign colon, terminator sign={}}{theo}
+\newtcbtheorem[use counter from=Definition]{corollary}{Corollary}{theorem style=break,colback=blue!10!white,coltitle=blue!50!black,fonttitle=\upshape\bfseries,fontupper=\itshape,drop fuzzy shadow=blue!50!black!50!white,boxrule=0.1pt, sharpish corners, description delimiters={}{}, separator sign colon, terminator sign={}}{theo}
+\newtcbtheorem[use counter from=Definition]{definition}{Definition}{theorem style=plain,enhanced,colframe=blue!50!black,colback=yellow!20!white,coltitle=red!50!black,fonttitle=\upshape\bfseries,fontupper=\itshape,boxrule=0.1pt, sharpish corners, description delimiters={}{}, terminator sign={:}}{theo}
+\newtcbtheorem[use counter from=Definition]{lemma}{Lemma}{theorem style=break,colback=Lavender!20,coltitle=Fuchsia,fonttitle=\upshape\bfseries,fontupper=\itshape,drop fuzzy shadow=blue!50!black!50!white,boxrule=0.1pt, sharpish corners, description delimiters={}{}, separator sign colon, terminator sign={}}{theo}
+
+\theoremstyle{plain}
+% \newtheorem{lemma}{Lemma}
+
+% \tcolorboxenvironment{lemma}{enhanced jigsaw,colframe=Lavender,interior hidden,before skip=10pt,after skip=10pt, sharpish corners}
+\tcolorboxenvironment{proof}{blanker,left=5mm,before skip=10pt,after skip=10pt,borderline west={1mm}{0pt}{Maroon}}
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%% COMMANDS
+%%%%%%%%%%%%%%%%%
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\U}{\mathscr{U}}
+
+\newcommand{\cm}[1]{} % in-line comments
+\newcommand{\fakeline}{~\\ \vspace{-1cm}}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\newcommand{\HRuleRed}{\textcolor{Maroon}{\rule{\linewidth}{0.5mm}}}
+\newcommand{\image}[1]{\begin{center}\includegraphics[width=\textwidth]{#1}\end{center}} % full-width image
+
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\cyc}[1]{\langle #1 \rangle}
+
+\newcommand{\rainbow}{\begin{tikzpicture}[x=1mm,y=1mm]
+  \colorlet{color min hsb}[hsb]{red}
+  \colorlet{color max hsb}[hsb]{magenta}
+  \foreach \pos in {0,...,140}{
+    \colorlet{my color hsb}[rgb]{color max hsb!\pos!color min hsb}
+    \fill[fill=my color hsb,draw=white] (\pos,1) rectangle +(1mm,1mm);
+  }
+\end{tikzpicture}}
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%% TITLE INFO
+%%%%%%%%%%%%%%%%%
+\title{Notes for Abstract Algebra}
+\author{Nicholas Tomlin}
+\date{\today}
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%% HEADER INFO
+%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+\lhead{Nicholas Tomlin}
+\chead{}
+\rhead{MATH 1530: Abstract Algebra}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% TESTING
+%%%%%%%%%%%%%%%%%
+\newcounter{examplecounter}
+\renewcommand{\theexamplecounter}{\arabic{examplecounter}}
+\newcommand{\on}[1]{\operatorname{#1}}
+\newenvironment{example}[1]{%
+\vspace{-0.35cm}
+\rule{\linewidth}{0.1mm}
+
+\refstepcounter{examplecounter}%
+\noindent\textbf{Example~\theexamplecounter}:}
+{\\[0.01in]\rule{\linewidth}{0.1mm}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% BEGIN DOCUMENT %%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\setcounter{page}{41}
+% \maketitle
+\thispagestyle{empty}
+\begin{center}
+\textsc{\Large MATH 1530: Abstract Algebra}\\[0.4cm]
+\textsc{\large Spring 2017}\\[0.2cm]
+
+\HRuleRed\\[0.4cm]
+{ \huge \bfseries Notes for Abstract Algebra: Part II}\\[0.1cm]
+\HRuleRed\\[0.2cm]
+
+\Large \textsc{Nicholas Tomlin}
+\end{center}
+\tableofcontents
+\newpage
+
+%%%%%%%%%%%%%%%%%
+%%%%%% SECTION: GROUPS
+%%%%%%%%%%%%%%%%%
+\section{Applications of group theory}
+In the past, mathematicians studied extrinsic properties of groups rather than intrinsic properties. As we'll see in the following theorem, every finite group can be ``embedded" as an isomorphism to some subgroup of the symmetric group $S_n$. Today, we focus less on the properties of $S_n$ and more on the properties of groups at a general level.
+\begin{theorem}{Cayley's Theorem}{}
+Every finite group $G$ is isomorphic to a subgroup of $S_n$ for some $n\in\Z$. In fact, we may take $n = |G|$.
+\end{theorem}
+\begin{proof}
+Consider the action of left multiplication of the group $G$ on the set $G$. I.e., $g\cdot x = gx$, which is a product in $G$. Thus we have the permutation representation $\varphi : G \to S_G \cong S_n$. As an exercise: check that $\varphi$ is injective.
+\end{proof}
+\begin{definition}{}{}
+A \textbf{representation} of a group $G$ is a homomorphism $\varphi : G \to \on{GL}(V)$, which is an invertible linear transformation of a vector space $V$. % inv. LTS?
+\end{definition}
+
+\section{Introduction to rings}
+We're all familiar with some examples of rings. For example, the real numbers, the complex numbers, etc. all have addition and multiplication which are compatible via the distributive law. Now, we'll formally define it:
+\begin{definition}{}{}
+A \textbf{ring} is a set $R$ together with binary operations $+$ and $\times$ such that the following ring axioms hold:
+\begin{enumerate}[(1)]
+\item $(R, +)$ is an abelian group.
+\item $\times$ is associative.
+\item $\times$ distributes over $+$, i.e., for all $a,b,c\in R$, then we write $(a+b)\times c = a\times c + b\times c$ and also $c\times(a+b) = c\times a + c\times b$.
+\item We say $R$ has a (multiplicative) identity if there exists $1 \in R$ such that $1\times a = a\times 1 = a$ for all $a \in R$.
+\end{enumerate}
+Further, we say $R$ is \textbf{commutative} if $\times$ is commutative.
+\end{definition}
+\begin{theorem}{}{}
+Let $R$ be a ring. Then $a \times 0 = 0\times a = 0$ for all $a \in R$.
+\end{theorem}
+\begin{proof}
+We can write the following derivation:
+	\begin{align*}
+	a \times 0 &= a\times (0 + 0) \\
+	&= a\times 0 + a\times 0 \\
+	0 &= a\times 0
+	\end{align*}
+where the last step follows from subtracting $a\times 0$ from both sides of the equation.
+\end{proof}
+\begin{theorem}{}{}
+Let $R$ be a ring. Then $(-a)\times b = a\times (-b) = -ab$ for all $a,b \in R$.
+\end{theorem}
+\begin{theorem}{}{}
+Let $R$ be a ring. The multiplicative identity $1 \in R$ is unique if it exists. Further, $(-1)\times a = -a$.
+\end{theorem}
+\begin{proof}
+If $1 \in R$ and $1' \in R$ are multiplicative identities, then $1 = 1\times 1' = 1'$ as desired. Then, note that $0 = 0\times a = (1 + (-1))\times a = 1\times a + (-1) \times a = a + (-1)\times a$, so therefore $(-1)\times a = -a$ is the additive inverse.
+\end{proof}
+\subsection{Examples of rings}
+Many of the groups we have discussed previously can also be considered rings with the usual definition of addition and multiplication: $\Z$, $\R$, $\C$, $\Q$, and $\Z/n\Z$ are all examples of this. The group $2\Z$ may also be considered a ring; however, it's notable that $2\Z$ has no multiplicative inverse. (This does not violate the ring axioms.)
+\begin{definition}{}{}
+Given a ring $R$, a \textbf{subring} is a subset $S \subseteq R$ such that $+$ and $\times$ are closed with respect to $S$ and $(S,+,\times)$ is also a ring.
+\end{definition}
+\begin{example}{}{}
+Given a ring $R$, let $\on{Mat}_{n\times n}(R)$ be the ring of $n\times n$ matrices with entries in $R$. This is a good example of a (typically) noncommutative ring.
+\end{example}
+\subsubsection{Polynomial rings}
+\begin{definition}{}{}
+Given any ring $R$, define $R[x]$ to be the \textbf{polynomial ring} with coefficients in $R$. Formally:
+$$R[x] = \{ a_nx^n + a_{n-1}x^{n-1} + \cdots + a_0 : a_i \in R, n\ge 0 \}$$
+where we call $a_n$ the \textbf{leading coefficient} and $n$ is the \textbf{degree}.
+\end{definition}
+Addition on the polynomial ring is defined component-wise as follows:
+$$(a_0 + a_1x + \cdots) + (b_0 + b_1x + \cdots) = (a_0 + b_0) + (a_1 + b_1)x + \cdots$$
+Meanwhile, multiplication is defined via distribution. So each term of one polynomial is multiplied by each term of the other, and then all terms are summed:
+\begin{align*}
+(a_0 + a_1x + \cdots) \times (b_0 + b_1x + \cdots) &= (a_0b_0) + (a_0b_1 + a_1b_0)x + \cdots
+\end{align*}
+We can extend this to multivariable polynomial rings via induction. Indeed, we'll write $R[x_1,\ldots,x_n] = (R[x_1,\ldots,x_{n-1}])[x_n]$ to define polynomial rings with an arbitrary number of variables.
+
+\subsubsection{Trivial rings}
+Given any abelian group $(R,+)$, define $\times$ on $R$ by $a \times b = 0$ for all $a,b \in R$. If $(R,+) = \{0\}$, then we have the zero ring. This is the unique ring with an identity $1 = 0$. This is also the only ring which is a group under multiplication. (Some other rings can be made into multiplicative groups by deleting the additive identity, e.g., $\R$.)
+
+\subsubsection{Group rings}
+\begin{definition}{}{}
+Let $G$ be a group\footnote{Dummit and Foote requires that $|G|$ be finite, but this is not strictly necessary.} and $R$ be a ring. The \textbf{group ring}
+$$RG = \{ r_1g_1 + \cdots r_kg_k : r_i \in R, g_i \in G \}$$
+uses the definition of a ``formal sum," which will be explained briefly.
+\end{definition}
+As before, addition behaves component-wise:
+$$(r_1g_1 + \cdots + r_kg_k) + (r_1'g_1 + \cdots + r_k'g_k) = (r_1+r_1')g_1 + \cdots + (r_k + r_k')g_k$$
+Multiplication may be defined by setting $(rg)\cdot (r'g') = (rr')(gg')$ and extending this definition via addition.
+\begin{definition}{}{}
+A \textbf{formal sum} of elements of $G$ with coefficients in $R$ is a map of sets $f : G \to R$ such that $f(g) = 0$ for all but finitely many $g \in G$.
+\end{definition}
+\begin{example}{}{}
+The formal sum of elements in $\N = \{ 0,1,2,\ldots \}$ with $\R$ coefficients are naturally in bijection with $\R[x]$, which is the set of polynomials with real-valued coefficients.
+\end{example}
+Given a ring $R$, we might also consider the Laurent polynomial ring $R[x^{\pm}] = \{ a_mx^m + \cdots + a_nx^n : m \le n \}$ where $m,n \in \Z$. For example, the element $x^{-2} + 3x^{-1} + 5x^7 \in \R[x^{\pm}]$ is a member of the Laurent polynomial ring with real coefficients. Then $\R[x^{\pm}] \cong \R\Z$, which is the group ring. For example, $(x^{-2})\cdot (x^3 + x^5) = x + x^3$.
+
+\subsection{The structure of rings}
+But what does it mean to say that $\R[x^{\pm}]$ is isomorphic to $\R\Z$? Even though we have defined isomorphism between groups, we need to re-define the concept of isomorphism for rings. We can do so with the following definition:
+\begin{definition}{}{}
+An \textbf{isomorphism $\varphi : R \to S$ of rings} is a bijection $\varphi$ such that:
+\begin{align*}
+\varphi(r + r') &= \varphi(r) + \varphi(r') \\
+\varphi(r\cdot r') &= \varphi(r)\cdot\varphi(r')
+\end{align*}
+for all elements $r,r' \in R$. If $\varphi$ is not a bijection, we call this a \textbf{homomorphism}.
+\end{definition}
+\begin{definition}{}{}
+A nonzero element $a \in R$ is a \textbf{zero divisor} if $ab = 0$ or $ba = 0$ for some $b \ne 0$.
+\end{definition}
+\begin{definition}{}{}
+An element $a \in R$ is a \textbf{unit} if there exists $c \in R$ with $ac = ca = 1$ (in a ring where the multiplicative identity exists).
+\end{definition}
+\begin{example}{}{}
+Consider the following groups:
+\begin{itemize}
+	\item $\Z$ has no zero divisors and units $\{ \pm 1 \}$.
+	\item $\Z/n\Z$ has units $\{ \bar{m} : (m,n) = 1 \}$ and the zero divisors are non-zero non-units.
+\end{itemize}
+\fakeline
+\end{example}
+Observe that an element $a \in R$ cannot be both a unit and a zero divisor. If $a$ is a unit and $ab = 0$, then we can show that $b = 0$. Indeed, let $c \in R$ with $ca = 1$. Then $b = (ca)b = c(ab) = 0$ as desired. Hence $a$ is not also a zero divisor.
+\subsection{Other structures}
+\begin{definition}{}{}
+A commutative ring with identity $1 \ne 0$ and no zero divisors is called an \textbf{integral domain}.
+\end{definition}
+\begin{definition}{}{}
+A \textbf{field} is a commutative ring with identity $1 \ne 0$ such that every nonzero element is a unit.
+\end{definition}
+Examples of fields include $\Q$, $\R$, and $\C$.
+
+% 4/6
+\subsection{Examples of ring homomorphisms}
+Recall that a homomorphism $\varphi : R \to S$ is a map of sets preserving the structure of addition and multiplication. For example, consider reduction modulo $n$: to do so, let $n \le 1$ and:
+\begin{align*}
+\varphi : \ &\Z \to \Z/n\Z \\
+&a \mapsto \bar{a}
+\end{align*}
+Previously, we checked that $\overline{a+b} = \bar{a} + \bar{b}$ for addition and $\overline{ab} = \bar{a}\cdot\bar{b}$ for all $a,b \in \Z$. This is sufficient to show that $\varphi$ is a homomorphism.
+
+We might also consider the evaluation homomorphism on polynomial rings:
+\begin{align*}
+\on{ev}_3 : \ &\R[x] \to \R \\
+&p \mapsto p(3)
+\end{align*}
+As an exercise, check that his is a homomorphism. For example, check that $(p+q)(3) = p(3) + q(3)$ and similarly for multiplication. A related example expresses $\R$ as a subring of $\R[x]$ via the inclusion map defined below:
+\begin{align*}
+i : \ &\R \to \R[x] \\
+&a \mapsto a
+\end{align*}
+Next, we can consider an example of a homomorphism to the product group. However, let us first re-define the concept of products for rings, even though it is essentially the same as direct products on groups.
+\begin{definition}{}{}
+Given $A,B$ rings, we can define the \textbf{product} $A \times B$ as the ring
+$$\{ (a,b) : a\in A, b \in B \}$$
+with addition and multiplication defined coordinate-wise.
+\end{definition}
+Given this definition, we can define the following homomorphism into a product group:
+\begin{align*}
+\varphi : \ &A \to A\times B \\
+&a \mapsto (a,0)
+\end{align*}
+This is a homomorphism. Note that if $1_A \in A$ and $1_B \in B$ are identities, then $(1_A,1_B)$ is an identity in $A\times B$. Then assuming $1_B \ne 0 \in B$, we have $\varphi(1_A)$ as the identity in $A \times B$.
+
+We can define the kernel of a ring based on the underlying group homomorphism, so $\on{ker}\varphi := \{ a\in R : \varphi(a) = 0 \}$, i.e., elements sent to the additive identity.
+\begin{theorem}{}{}
+Given $\varphi : R \to S$, then $\on{im}\varphi \subseteq S$ and $\on{ker}\varphi \subseteq R$ are subrings.
+\end{theorem}
+\begin{proof}
+Check that $\on{im}\varphi$ and $\on{ker}\varphi$ are closed under multiplication in $S,R$ respectively.
+\end{proof}
+
+\begin{theorem}{}{}
+Let $\varphi : R \to S$ be a homomorphism of rings. Then $K = \on{ker}\varphi$ satsifies:
+\begin{enumerate}[(1)]
+\item $K$ is an additive subgroup of $R$.
+\item Given $x \in K$ and $a\in R$, then $ax,xa \in K$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Indeed, $\varphi(x) = 0$ so $\varphi(ax) = \varphi(a)\varphi(x) = 0$. Similarly for $xa$.
+\end{proof}
+
+\subsection{Ideals and quotients}
+\begin{definition}{}{}
+An \textbf{ideal} of a ring $R$ is a subset $I \subseteq R$ satisfying:
+\begin{enumerate}[(1)]
+\item $I$ is an additive subgroup.
+\item[(2L)] $I$ is closed under left multiplication by $R$. That is, if $x \in I$ and $a \in R$, then $ax \in I$.
+\item[(2R)] $I$ is closed under right multiplication by $R$. That is, if $x \in I$ and $a \in R$, then $xa \in I$.
+\end{enumerate}
+If $(1)$ and $(2L)$ hold, then $I$ is a \textbf{left ideal}. Otherwise, $I$ is a \textbf{right ideal}.
+\end{definition}
+Remark that $\on{ker}\varphi \subseteq R$ is an ideal for any $\varphi : R \to S$ ring homomorphism.
+
+\begin{example}{}{}
+Let $I\subseteq \R[x]$ be $\{ (x-3)f(x) : f(x) \in \R[x] \}$. Note that $I = \on{ker}(ev_3 : \R[x] \to \R)$, so based on the previous remark, $I$ is an ideal.
+\end{example}
+
+Are left and right ideals always the same? No, we can consider the ring $R = \on{Mat}_{n\times n}(K)$ for any field $K$, e.g., $\R$. Then, let us define:
+$$I = \left\{ \begin{bmatrix}
+0 & * & * \\
+0 & * & *
+\end{bmatrix} \right\}$$
+Then $I$ is a left ideal, but not a right ideal. This is because right-multiplication will not necessarily preserve the left-column of zeros in $I$.
+
+\begin{definition}{}{}
+Let $I \subseteq R$ be an ideal in a ring $R$. The \textbf{quotient ring} $R/I$ has elements $\{ a + I : a \in R \}$ with the following operations:
+\begin{itemize}
+\item $(a+I)+(b+I) := (a+b)+I$
+\item $(a+I)\cdot(b+I) := (a\cdot b)+I$
+\end{itemize} 
+\end{definition}
+To check that the quotient ring is in fact a ring, we need to check the well-definedness of multiplication as stated above. In particular, given $a+I = a' + I$ and $b+I = b' + I$, then we need to check that $ab + I = a'b' + I$. This is equivalent to checking that $ab-a'b' \in I$:
+\begin{align*}
+ab - a'b' &= ab - a'b + a'b - a'b' \\
+&= (a-a')b + a'(b-b')
+\end{align*}
+but since $(a-a'), (b-b') \in I$, their linear combination must be as well. Therefore multiplication is well-defined as desired.
+
+%\subsubsection{An interlude on cosets}
+%Note that $b \in a + I$ iff $b-a \in I$. This is because $b = a+x$ for some $x \in I$. Therefore, $b + I = a + I$ in this situation.
+
+\subsection{A glorious return to the beloved isomorphism theorems}
+\begin{theorem}{First Isomorphism Theorem for Rings}{}
+Given a ring homomorphism $\varphi : R \to S$, then $R/\on{ker}\varphi \cong \on{im}\varphi$.
+\end{theorem}
+\begin{proof}
+Let's define a function $f$ as follows:
+\begin{align*}
+f : \ &R/\on{ker}\varphi \to \on{im}\varphi \\
+&a + \on{ker}\varphi \mapsto \varphi(a)
+\end{align*}
+Claim that $f$ is well-defined. Indeed, if $a + \on{ker}\varphi = a'+\on{ker}\varphi$, then $(a-a') \in \on{ker}\varphi$ so we can write $\varphi(a-a') = \varphi(a) - \varphi(a') = 0$. Note that $f$ is surjective by construction, and injective since $\varphi(a) + \varphi(a') \implies a + \ker\varphi = a' + \ker\varphi$.
+
+Finally, $f$ is a ring homomorphism by the definition of addition and multiplication. E.g.:
+\begin{align*}
+f((a+\ker\varphi)(b+\ker\varphi))	&= f(ab + \ker\varphi) \\
+						&= \varphi(ab) \\
+						&= \varphi(a)\varphi(b) \\
+						&= f(a+\ker\varphi)\cdot f(b+\ker\varphi)
+\end{align*}
+We can check addition similarly, which is sufficient to prove the theorem.
+\end{proof}
+
+\begin{definition}{}{}
+If $I \subseteq R$ is an ideal, define the \textbf{natural projection} as follows:
+\begin{align*}
+\pi : \	&R \to R/I \\
+	&a \mapsto a + I
+\end{align*}
+for all $a \in R$. Note that this is a surjective homomorphism (check as exercise).
+\end{definition}
+Remark that the kernel of the natural projection map is $\ker(\pi) = \{ a \in R : a + I = I \} = I$. So we've realized $I$, which is an ideal, as the kernel of the natural projection map.
+
+\begin{theorem}{Second Isomorphism Theorem for Rings}{}
+Let $R$ be a ring. Given a subring $A \subseteq R$ and an ideal $B \subseteq R$, then:
+$$A + B = \{ a + b : a\in A, b \in B \}$$
+is a subring of $R$ and $A \cap B$ is an ideal of $A$. Then $(A+B)/B \cong A/(A\cap B)$.
+\end{theorem}
+
+\begin{theorem}{Third Isomorphism Theorem for Rings}{}
+Let $I,J\subseteq R$ be ideals of a ring $R$, and say $I \subseteq J$. Then:
+$(J/I)$ is an ideal in $R/I$, which allows us to write
+$$(R/I)/(J/I) \cong (R/J)$$
+\end{theorem}
+
+\begin{theorem}{Fourth Isomorphism Theorem for Rings}{}
+Let $I \subseteq R$ be an ideal of a ring $R$. Then there is a bijective, inclusion-preserving correspondence between \{subrings $A$ of $R$ containing $I$\} and \{subrings $A/I$ of $R/I$\}. Further, $A$ is an ideal of $R$ iff $A/I$ is an ideal of $R/I$.
+\end{theorem}
+
+\subsection{Properties of ideals}
+\subsubsection{Some ways to construct left, right, and two-sided ideals}
+Let $A \subseteq R$ where $R$ is a ring containing a multiplicative identity. Then, we can construct the following ideals:
+\begin{enumerate}[(1)]
+\item The ``smallest" ideal containing $A$. That is, define $I = \cap J$ where $J \subseteq R$ is an ideal containing $A$. Note that $0 \in I$ and $I$ is actually an ideal.
+\begin{definition}{}{}
+Given a subset $A \subseteq R$, the ideal $I$ thus defined is called the \textbf{ideal generated by} $A$. We write $I = (A)$. % parentheses, not angle brackets
+\end{definition}
+
+\item We may also construct the smallest left ideal containing $A$. Define $RA = \{ r_1a_1 + \cdots + r_na_n : r_i \in R, a_i \in A \}$ to be the inner product whose elements are linear combinations of elements in $A$ and $R$. Then $RA$ is a left ideal of the ring $R$. Indeed, you can check that the following equality is satisfied:
+$$RA = \cap L$$
+where $L \subseteq R$ is a left ideal containing $A$. As an exercise: come up with an alternate description for $(A)$ similar to what we did with left ideals.
+
+\end{enumerate}
+
+\subsubsection{Principal ideals}
+
+\begin{definition}{}{}
+A \textbf{principal ideal} $I \subseteq R$ is an ideal $I = (A)$ where $A$ has only a single element. If $A = \{x\}$ where $x \in R$, then we write $I = (x)$ instead of $I = (\{x\})$.
+\end{definition}
+
+\begin{definition}{}{}
+A \textbf{finitely generated ideal} is an ideal generated by a finite subset.
+\end{definition}
+
+\begin{theorem}{}{}
+Assume that $R$ is a commutative ring. Given $A \subseteq R$, we have that $RA = (A)$.
+\end{theorem}
+\begin{proof}
+We need to show that $RA = \cap J$ as above. Note that $\cap J \subseteq RA$ because $RA$ is an ideal containing $A$ via commutativity. To show $RA \subseteq \cap J$, take any linear combination in $RA$. Since any ideal $J$ containing $A$ must be closed under addition and multiplication by ring elements, then $RA \subseteq \cap J$.
+\end{proof}
+
+\begin{corollary}{}{}
+If $R$ is commutative and $x \in R$, then the principal ideal $(x) = \{ rx : r \in R \}$.
+\end{corollary}
+Now, let's consider some examples of principal  and non-principal ideals:
+\begin{enumerate}[(1)]
+\item Principal ideals in $\Z$ - the only subgroups of $\Z$ are $n\Z$ for some $n \in\Z$. All these subgroups are ideals, so all ideals of $\Z$ are of the form $n\Z = (n)$.
+
+In $\Z$, $(\{n,m\}) = (\gcd(m,n))$. (cf. midterm exam)
+
+\item In $\Z[x]$, not every ideal is principal. Consider $(\{2,x\})$. If $(\{2,x\}) = (p(x))$ with $p(x) \in \Z[x]$, then $p$ has to be a factor of both $2$ and $x$. Thus $p = \pm 1$.
+
+But for any $q \in (\{2,x\})$, $q$ has even constant coefficients. Thus $p \not\in (\{2,x\}) = (p(x))$ is a contradiction. Hence this is not a principal ideal.
+\end{enumerate}
+
+\subsubsection{Divisibility in ideals}
+\begin{definition}{}{}
+Given $a,b \in R$ where $R$ is a commutative ring, we say that $a$ \textbf{divides} $b$ if there exists $c \in R$ such that $b = ac$.
+\end{definition}
+\begin{theorem}{}{}
+Given that $a,b\in R$ where $R$ is a commutative ring with $a$ dividing $b$, we can say:
+$$(a) = \{b \in R : a \text{ divides } b \}$$
+\end{theorem}
+
+\begin{theorem}{}{}
+For $a,b \in R$ where $R$ is a commutative ring, then $(b) \subseteq (a)$ iff $a\mid b$.
+\end{theorem}
+
+\subsubsection{Further results about ideals}
+Assume that $R$ is a ring with $1 \ne 0$, not necessarily commutative.
+\begin{theorem}{}{}
+Let $I \subseteq R$ be an ideal. Then $I = R$ iff $I$ contains a unit.
+\end{theorem}
+\begin{proof}
+If $I = R$, then $1 \in I$. If $x \in I$ is a unit, then for all $r \in R$, $r = (rx^{-1})x \in I$.
+\end{proof}
+
+\begin{theorem}{}{}
+Let $I \subseteq R$ be an ideal. If $R$ is commutative:
+$$[\forall x \in R-\{0\} \text{, $x$ is a unit}]
+\iff 
+[\{\text{ideals of } R\} = \{0,R\}]$$
+\end{theorem}
+\begin{proof}
+First, suppose that all nonzero elements of the ring have an inverse. Then any nonzero element is a unit. By the previous theorem, a nonzero ideal $I$ thus equals $R$.
+
+Inversely, suppose that the only ideals in $R$ are $\{0,R\}$. Then take $x \in R - \{0\} \implies (x) \in \{0,R\}$. Since $x \in (x)$, $(x) \ne 0$. Thus $(x) = R \implies x \mid 1$ is a unit.
+\end{proof}
+
+\subsubsection{Other types of ideals}
+\begin{definition}{}{}
+Suppose $M \subseteq R$ is an ideal of a ring $R$. Then we say $M$ is a \textbf{maximal ideal} if $M \ne R$ and $M$ is not contained by any such ideals.
+\end{definition}
+Note that maximal ideals are not necessarily unique. For example, every $p\Z \subseteq \Z$ is a maximal ideal for primes $p \in \Z$. Further, these are the only maximal ideals in $\Z$.
+
+\begin{theorem}{}{}
+Let $R$ be a commutative ring. An ideal $M \subseteq R$ is maximal iff $R/M$ is a field.
+\end{theorem}
+\begin{proof}
+By the fourth isomorphism theorem for rings, ideals of $R/M$ correspond with ideals of $R$ containing $M$. If $M$ is maximal, then the only ideals containing $M$ are $\{M,R\}$. Thus: $\{ M/M, R/M \}$ are the only two ideals in the quotient ring via the fourth isomorphism theorem. Any nonzero $x \in R/M$ is a unit, so $R/M$ is a field.
+
+To check the inverse direction, suppose $R/M$ is a field. Then all the nonzero elements are units. By the previous result, this means that the only ideals of $R/M$ are $\{0,R/M\}$. Thus, by the fourth isomorphism theorem, all ideals of $R$ containing $M$ are simply $$\{\pi^{-1}(M/M), \pi^{-1}(R/M)\} = \{M,R\}$$
+Because there are only these two ideals containing $M$, we can determine that $M$ must be maximal.
+\end{proof}
+
+\begin{definition}{}{}
+Let $R$ be a ring, with $I \subseteq R$ a proper ideal. Then $I$ is \textbf{prime} if for all $f,g \in R$, $fg \in I \implies f\in I$ or $g \in I$.
+\end{definition}
+Recall: we stated that the maximal ideals of $\Z$ are $p\Z$ for all prime numbers $p$. The prime ideals are the same, plus $0$, which is not a maximal ideal.
+
+Before stating the next theorems, recall that every field is an integral domain, but the reverse does not necessarily hold. However, remark that finite integral domains are fields. To see this, let $A$ be a finite integral domain with element $a \ne 0$. Then, consider the map of sets
+\begin{align*}
+    A &\to A \\
+    b &\mapsto a\cdot b
+\end{align*}
+which must be injective since there are no zero divisors. Due to finiteness, it's also surjective, and there must exist a $b \in A$ such that $a\cdot b = 1$. Thus, we have shown that an arbitrary nonzero element is a unit, so $A$ is a field as desired.
+
+\begin{theorem}{}{}
+Let $S$ be a commutative ring with a multiplicative identity $1 \ne 0$. Then $S$ is a field iff $0$ is a maximal ideal of $S$.
+\end{theorem}
+\begin{proof}
+Note that for all $a \in S$, the following equivalence holds: $(a) = S \iff ab = 1$ for some $b \in S$, which means that $a$ is a unit. Then, we know that $S$ is a field precisely if $(a) = S$ for all nonzero $a \in S$. This holds iff $0$ is a maximal ideal.
+\end{proof}
+
+\begin{theorem}{}{}
+Let $S$ be a commutative ring with a multiplicative identity $1 \ne 0$. Then $S$ is an integral domain iff $0$ is a prime ideal of $S$.
+\end{theorem}
+\begin{proof}
+$S$ is an integral domain precisely when $\forall f,g \in S$, $fg = 0 \implies f=0$ or $g=0$. This occurs exactly when $0$ is a prime ideal in $S$.
+\end{proof}
+
+\begin{theorem}{}{}
+Let $R$ be a commutative ring with $1 \ne 0$. Say that $I \subseteq R$ is a proper ideal. Then the following pairs of equivalences hold:
+\begin{itemize}
+\item[(1a)] $I$ is maximal.
+\item[(1b)] $R/I$ is a field.
+\item[(2a)] $I$ is prime.
+\item[(2b)] $R/I$ is an integral domain.
+\end{itemize}
+Further, $(1a) \implies (2a)$ and $(1b) \implies (2b)$.
+\end{theorem}
+\begin{proof}
+First, note that (1a) and (1b) are both equivalent to saying that $0$ is a maximal ideal in $R/I$ per the previously stated theorems and the fourth isomorphism theorem.
+
+Similarly, (2a) and (2b) are both equivalent to saying that $0$ is a prime ideal in $R/I$. Part of this follows from the previous theorems; it remains to show that $I$ is prime $\iff 0$ is a prime ideal in $R/I$. To show this, write $\bar{f} = f + I$ and $\bar{g} = g + I$. Then:
+\begin{align*}
+    I \text{ is prime } &\iff (fg \in I \implies f\in I \text{ or } g\in I) \\
+    &\iff \bar{f}\bar{g} \in 0 \\
+    &\iff \bar{f} \in 0 \text{ or } \bar{g} \in 0 \\
+    &\iff 0 \text{ is prime in } R/I
+\end{align*}
+In this way, we have shown both pairs of equivalencies. The implicatures from (1a) to (2a) and from (1b) to (2b) remain to be shown.
+\end{proof}
+\vspace{0.5cm}
+\begin{example}{}{}
+WTS $(x^2+1) \subseteq \R[x]$ is a maximal ideal. Then define the homomorphism:
+\begin{align*}
+    \varphi : \ &\R[x] \to \C \\
+    &p(x) \mapsto p(i)
+\end{align*}
+Note that $\varphi$ is surjective and $(x^2 + 1)\subseteq \ker\varphi$. In fact, $\ker\varphi = (x^2 + 1)$.
+\end{example}
+
+\begin{theorem}{Fundamental Theorem of Algebra}{}
+Any complex polynomial $P$ factors as $a\cdot (x-c_1)\cdots(x-c_n)$ for $a_1,c_1,\ldots,c_n \in \C$. Further, if $P \in \R[x]$, then complex $c_i$s come in conjugate pairs.
+\end{theorem}
+We can use this theorem to complete the previous example. By the first isomorphism theorem, conclude that $\R[x] / (x^2 + 1) \cong \C$, so $(x^2 + 1)$ is maximal. On the other hand, any polynomial that can be factored in the reals, e.g., $x^2 - 3x + 2 = (x-1)(x-2) \subset (x-1)$.
+
+\subsection{Operations on ideals}
+Let $R$ be a ring, with ideals $I,J \subseteq R$.
+\begin{definition}{}{}
+The \textbf{sum} is $I+J = \{ a+b : a\in I, b\in J \}$.
+\end{definition}
+
+Note that $I + I = I$, since this might be unintuitive.
+
+\begin{definition}{}{}
+The \textbf{product}, denoted $IJ$, consists of all finite sums\footnote{Don't forget the ``finite sum" part of this definition!} of elements of the form $ab$ where  $a\in I$ and  $b\in J$.
+\end{definition}
+
+\begin{definition}{}{}
+The $n$th \textbf{power} $I^n = I\cdots I$ ($n$ times).
+\end{definition}
+
+For example, note that $I^2 = \{ \text{finite sum of elements of form} ab \text{ with } a,b\in I \}$. In general, we can write $R = I^0 \supset I \supset I^2 \supset I^3 \supset\cdots$.
+
+\subsubsection{Monomial ideals}
+\begin{definition}{}{}
+A \textbf{monomial} in $\R[x,y]$ is a polynomial of form $a\cdot x^iy^j$ where $a \in \R$ and $i,j \ge 0$ are integers. A \textbf{monomial ideal} is an ideal generated by monomials, e.g., $(x^3, xy, y^2)$.
+\end{definition}
+\begin{lemma}{}{}
+If $I = (m_1,\ldots,m_n)$ is a monomial ideal, then a polynomial
+$$f = \sum_{i,j \ge 0} a_{ij}x^iy^j$$
+is in $I$ iff each of the monomials in $f$ is in $I$.
+\end{lemma}
+For example, $f = x^4 + 5xy + 6y^7 \in I$ since $x^4,5xy,6y^7 \in I$. However, $f = x + y + xy \not\in I$.
+\begin{proof}
+We'll show the two separate directions of the equivalence below:
+
+$(\impliedby)$ Follows from $I$ being closed under addition.
+
+$(\implies)$ Say $f = \sum a_{ij}x^iy^j \in I$ implies that $f = \sum_{i=1}^n P_i(x,y)m_i$ for some polynomials $P_i$. Thus, each monomial appearing in $f$ is a monomial multiple of some $m_i$.
+\end{proof}
+\vspace{0.5cm}
+%\begin{example}{}{}
+%On the HW, we were asked to find a non-integral domain such that the ideals $(f)=(g)$ even though we cannot write $f=ga$ for some unit $a$. Kaplansky solves this by setting $R = \{ \text{continuous functions } [0,3] \to \R \}$. Then, we can find functions $f,g$ with $(f) = (g)$. Even though we can write $f=ga$ and $g=fb$, they are not related by a unit. (Add image!)
+%\end{example}
+
+\section{Euclidean domains}
+\begin{definition}{}{}
+Let $R$ be an integral domain. Then a \textbf{norm} on $R$ is any function $N : R \to \Z_{\ge 0}$ such that $N(0) = 0$. $N$ is \textbf{positive} if $N(a) > 0$ for all $a \ne 0$, $a \in R$.	
+\end{definition}
+\begin{definition}{}{}
+An integral domain $R$ is a \textbf{Euclidean domain} if there exists a norm $N : R \to \Z_{\ge 0}$ such that for all $a,b \in R$ with $b \ne 0$, then $a=qb+r$ for some $q,r \in R$ such that $r = 0$ or $N(r) < N(b)$.	
+\end{definition}
+Consider the following examples of Euclidean domains:
+\begin{itemize}
+	\item $\Z$ with $N(a) = |a|$, i.e., integer division with remainders.
+	\item Any field with zero norm (norm function sends all to $0$).
+	\item Given any field $F$, then $F[x]$ is a Euclidean domain with $N(p(x)) :=$ degree of $p(x)$.
+%	\item memelody chan
+	\item Quadratic fields, quadratic integer rings.
+\end{itemize}
+\subsection{Quadratic fields and quadratic integer rings}
+	\begin{definition}{}{}
+		Let $D$ be a square-free integer. The field $\Q(\sqrt{D}) = \{ a+b\sqrt{D} : a,b\in \Q \}$ with multiplication is isomorphic to $\Q[x]/(x^2-D)$. This is a \textbf{quadratic field}.
+	\end{definition}
+	\begin{definition}{}{}
+		Inside $\Q(\sqrt{D})$, let $\Z[\sqrt{D}] = \{ a+b\sqrt{D} : a,b \in \Z \}$. This is called a \textbf{quadratic integer ring}.
+	\end{definition}
+	For example, if $D = -1$, then $Z[\sqrt{-1}] = \Z[i]$ is the ring of Gaussian integers.
+	\begin{definition}{}{}
+		We can define the \textbf{field norm} $\on{N} : \Q(\sqrt{D}) \to \Q$ as follows:
+		\begin{align*}\on{N}(a+b\sqrt{D}) :&= (a+b\sqrt{D})(a-b\sqrt{D}) \\
+		&=a^2-b^2D
+		\end{align*}
+		which restricts to $\on{N} : \Z[\sqrt{D}] \to \Z$.
+	\end{definition}
+	For example: $\on{N}(a+bi) = (a+bi)(a-bi) = a^2+b^2$. Now, claim that $\Z[i]$ is a Euclidean domain with respect to this norm.
+	\begin{theorem}{}{}
+		The Gaussian integers are a Euclidean domain.
+	\end{theorem}
+	\begin{proof}
+		Say $\alpha = a+bi$ and $\beta = c+di$ where $\beta \ne 0$ and $\alpha,\beta \in \Z[i]$. Write $\alpha = (r+si)\beta$ for $r,s \in \Q$. Choose $p+qi \in \Z[i]$ such that $\on{norm}((r+si) - p+qi) \le \frac{1}{4} + \frac{1}{4} = \frac{1}{2}$. Then:
+			$$\alpha = ((r-p)i + (s-q)i)\beta + (p+qi)\beta$$
+		so check that $\on{N}(((r-p) + (s-q)i)\beta)$
+	\end{proof}
+	This can be adapted to show that $\Z[\sqrt{D}]$ is a Euclidean domain for $D = -2,-3,-7,-11$. However, $\Z[\sqrt{-5}]$ is not a Euclidean domain.
+	\begin{definition}{}{}
+	An integral domain $R$ is a \textbf{principal ideal domain} (abbreviated PID) if every ideal is principal.	
+	\end{definition}
+	Examples of principal ideal domains include $\Z$ and $K[[x]]$ (ring of formal power series). However, $\Z[x]$ has a non-principal ideal $(2,x)$ and is not a PID.
+	\begin{theorem}{}{}
+	Euclidean domains are PIDs.
+	\end{theorem}
+	\begin{proof}
+	Let $I \subseteq R$ be an ideal where $R$ is a Euclidean domain with norm $N : R \to \Z_{\ge 0}$. We want to show that $I$ is principal. Consider two cases:
+	\begin{itemize}
+	\item If $I = 0 = (0)$, then we have already shown $I$ is principal.
+	\item If $I \ne (0)$, let $f \in I$ be a nonzero element with minimum norm. Then, claim that $I = (f)$.	Indeed, we know $(f) \subseteq I$, so WTS the reverse inclusion. To do so, let $g \in I$, and have $g = qf + r$ for $q,r \in R$ and $r = 0$ or $\on{N}(r) < \on{N}(f)$. But $r \in I$ since $g,qf \in I$, so $r = 0$ by choice of $f$.
+	\end{itemize}
+	Thus, either $I = (0)$ or $I = (f)$, so every ideal is principal.
+	\end{proof}
+	\begin{corollary}{}{}
+	Once again, every ideal of $\Z$ is principal.	
+	\end{corollary}
+	\begin{corollary}{}{}
+		$\Z[x]$ is not a Euclidean domain. (It's not even a PID!)
+	\end{corollary}
+	\begin{definition}{}{}
+	Let $R$ be a commutative ring with $a,b\in R$. Say $b\mid a$ if $a=bx$ for some $x \in R$.	
+	\end{definition}
+	\begin{definition}{}{}
+		Let $R$ be a commutative ring with nonzero elements $a,b\in R$. Then a \textbf{greatest common divisor} of $a,b$ is an element $d \in R$ such that:
+		\begin{enumerate}[(1)]
+		\item $d\mid a$, $d\mid b$
+		\item If $d'\mid a$ and $d'\mid b$, then $d'\mid d$.	
+		\end{enumerate}
+	\end{definition}
+	This new definition means that both $\pm 2$ are greatest common divisors of $6,8 \in \Z$. Similarly, we can apply this to polynomial rings: for example, what are the GCDs of $x^2 + x = x(x+1)$ and $x^2-1=(x+1)(x-1)$ in $\R[x]$? Well, $(x+1)$ is a GCD, but so is any scalar multiple of it. So the GCDs are $\{ a(x+1) : a \in \R - \{ 0 \} \}$.
+	
+	\begin{theorem}{}{}
+	If $a,b \in \R - \{0\}$ and $(a,b) = (d)$ for some $d \in R$, then $d$ is GCD of $a, b$.
+	\end{theorem}
+	\begin{proof}
+	We know $d\mid a$ and $d\mid b$ since $a,b \in (d)$. Say $d'\mid a$ and $d'\mid b$; then, $(d') \supseteq (a,b) = (d)$. Therefore, $d' \mid d$.	
+	\end{proof}
+
+\subsection{Revisiting the Euclidean algorithm}
+\begin{theorem}{}{}
+	Let $R$ be a Euclidean domain with respect to a norm $N$, and let $a,b \in R$ be nonzero elements of the ring. Then the Euclidean algorithm operates as below:
+	\begin{align*}
+	 a &= bq_0 + r_0 \\	
+	 b &= r_0q_1 + r_1 \\
+	 &\phantom{test}\vdots \\
+	 r_{n-2} &= q_nr_{n-1} + r_n \\
+	 r_{n-1} &= r_nq_{n+1} + 0
+	\end{align*}
+	where $N(r_0) > N(r_1) > \cdots > N(r_n)$ terminates and $r_n$ is a GCD for $a,b$.
+\end{theorem}
+\begin{proof}
+	Same as the proof for the Euclidean algorithm in $\Z$. In particular, $r_n\mid r_{n-1}, r_{n-2},\ldots,b,a$ and $r_n = ax + by$ for some $x,y \in R$. So $(r_n) = (a,b)$. Therefore, $r_n$ is a greatest common denominator for $a,b$ by the previous theorem.\footnote{This explains why we use the notation $(a,b)$ to denote the greatest common denominator of $a,b$.}
+\end{proof}
+
+\subsection{Unique factorization domains}
+\begin{definition}{}{}
+Let $R$ be an integral domain. Say $r \in R$ is a nonzero element that is not a unit. Then $r$ is called \textbf{irreducible} if $r=ab \implies a$ or $b$ is a unit.	
+\end{definition}
+\begin{definition}{}{}
+	Let $R$ be an integral domain. A nonzero element $r \in R$ is \textbf{prime} if $(r)$ is a prime ideal. That is, $(r)$ is a proper ideal, and if $r \mid ab$, then $r\mid a$ or $r\mid b$. Equivalently, if $ab \in (r)$, then $a \in (r)$ or $b \in (r)$.
+\end{definition}
+\begin{definition}{}{}
+	Say $a,b \in R$ are \textbf{associates} if $a=bu$ for $u \in R$ a unit. Note: this is an equivalence relation.	
+\end{definition}
+Consider the following examples of unique factorization domains:
+\begin{itemize}
+\item In $\Z$, $\{ \pm 2, \pm 3, \pm 5, \pm 7, \cdots \} = \{ \text{irreducibles} \} = \{ \text{primes} \}$. Associates are of form $\pm a$.
+\item In a field $K$, there are no irreducible elements, and there are no primes. Indeed, consider any nonzero element in $K$: such an element must be a unit.
+\item $\Z[\sqrt{-5}] = \{ a+b\sqrt{-5} : a,b\in\Z \} \cong \Z[x]/(x^2+5)$. Addition is component-wise, and multiplication behaves as follows:
+	$$(a+b\sqrt{-5})(c+d\sqrt{-5}) = (ac-5bd) + (ad + bc)\sqrt{-5}$$
+	This example will demonstrate the difference between irreducibility and prime-ness.
+	Now, claim that $3$ is irreducible in $\Z[\sqrt{-5}]$. Note the norm on $\Z[\sqrt{-5}]$ is $N(a+b\sqrt{-5}) = a^2 + 5b^2 = (a+b\sqrt{-5})(a-b\sqrt{-5})$, which is multiplicative, i.e., $N(\alpha\beta) = N(\alpha)N(\beta)$. Say $3 = \alpha\beta$ for $\alpha,\beta \in \Z[\sqrt{-5}]$. Then $9 = N(3) = N(\alpha)N(\beta)$. It cannot be the case that $N(\alpha) = N(\beta) = 3$ since $N(a+b\sqrt{-5}) = a^2 + 5b^2$ can never equal $3$. We can find a case where $N(\alpha) = 9, N(\beta) = 1$. But then either $\alpha = \pm 1$ or $\beta = \pm 1$, so $3$ is irreducible as desired.
+	
+	However, $3$ is not prime in $\Z[\sqrt{-5}]$. This is because $9 = 3\cdot 3 = (2 + \sqrt{-5})(2 - \sqrt{-5})$, so $3 \mid (2 + \sqrt{-5})(2 - \sqrt{-5})$, but $3\nmid (2\pm \sqrt{-5})$. Hence $3$ is not prime.
+\end{itemize}
+\begin{theorem}{}{}
+	Let $R$ be an integral domain, with prime element $p \in R$. Then $p$ is irreducible.	
+\end{theorem}
+\begin{proof}
+	Say $p$ prime and $p = ab$ for $a,b \in R$. So $p\mid a$ or $p\mid b$; we may assume $p\mid a$, so write $a = pc$ for some $c \in R$. Combining these statements gives $p = pbc\implies bc = 1$ since $R$ is an integral domain. In particular, this means $b$ is a unit.	
+\end{proof}
+\begin{definition}{}{}
+	An integral domain $R$ is called a \textbf{unique factorization domain} (UFD) if every nonzero element $r \in R$ that is not a unit, $r$ has a factorization into irreducibles that's unique in the following sense: 
+	\begin{enumerate}[(1)]
+	\item $r = p_1\cdots p_n$ for $p_i$ irreducible
+	\item if $r = q_1 \cdots q_m$ for $q_i$ irreducibles, then $m = n$ and after reordering, $p_i$ is an associate of $q_i$ for each $i = 1,\ldots, n$.
+	\end{enumerate}
+\end{definition}
+Here are some examples and non-examples:
+\begin{itemize}
+\item $\Z$ is a UFD: for example, $12 = 2 \cdot 2 \cdot 3$. Reordering this factorization and multiplying by units ($\pm 1$) gives another factorization, e.g., $12 = (-3)\cdot (-2) \cdot 2$.
+\item Every principal ideal domain is a unique factorization domain (we'll prove this).
+\item If $R$ is a unique factorization domain, then so is the polynomial ring $R[x]$.
+\item $\Z[\sqrt{-5}]$ is not a UFD. As before, note that $9 = 3 \cdot 3 = (2 + \sqrt{-5})(2 - \sqrt{-5})$. As we have shown, $3, 2\pm \sqrt{-5}$ are irreducible in $R$. Further, $3$ and $2\pm \sqrt{-5}$ are not associates. In fact, $\Z[\sqrt{-5}]$ is not even a principal ideal domain.
+	\begin{theorem}{}{}
+	$(3, 2\pm\sqrt{-5})$ is not a principal ideal.	
+	\end{theorem}
+	\begin{proof}
+	If instead $(3, 2\pm\sqrt{-5}) = (\alpha)$, then what could $N(\alpha)$	be? Note $N(\alpha)\mid 9$ since $N$ is multiplicative. As we've shown before, $N(\alpha) \ne 3$, so $N(\alpha) = 1$ or $9$. Could $N(\alpha) = 1$? If so, $\alpha = \pm 1$. If so, then it would mean that $(3,2+\sqrt{-5}) = \Z[\sqrt{-5}]$; but that can't happen!
+	
+	Alternatively, could $N(\alpha) = 9$? If so, $\alpha = \pm 3$, but also $\alpha = \pm(2 + \sqrt{-5})$, which is a contradiction. Therefore $(3, 2\pm\sqrt{-5})$ is not a principal ideal as desired.	
+	\end{proof}
+\end{itemize}
+
+\begin{lemma}{}{}
+If $R$ is a unique factorization domain, $p$ irreducible $\implies p$ prime.
+\end{lemma}
+\begin{proof}
+	Let $p \in R$ be an irreducible element. Given $a,b \in R$ such that $p\mid ab$, then we want to show that $p\mid a$ or $p\mid b$. Factor $a,b$ into irreducibles and multiply them:
+	$$ab = a_1\cdots a_nb_1\cdots b_m$$
+	Then $p\mid ab \implies ab = p\cdot c = p\cdot c_1\cdots c_k$. We conclude that $p$ is an associate of some $a_i$ or some $b_j$, so $p\mid a$ or $p\mid b$ as desired.
+	
+	Alternatively, assume $p\nmid a$, and say $(p,a) = (d)$ for some $d \in R$. So either $d$ is a unit, or $d = pu$ for some unit $u$ via irreducibility. Since $p\nmid a$, then $d$ is a unit. So $a = px + ay$ for $x,y \in R$, and therefore $b = pbx + aby$, so $p\mid b$ since $p\mid \text{RHS}$.
+\end{proof}
+\begin{corollary}{}{}
+Every nonzero prime ideal of a PID is maximal. 	
+\end{corollary}
+
+
+\begin{definition}{}{}
+Let $R$ be an integral domain. The \textbf{field of fractions} of $R$ is the field whose elements are equivalence classes of $\{ (a,b) : a,b \in R, b \ne 0 \}$ under the relation $(a,b) \sim (c,d)$ if $ad=bc$. Addition and multiplication are defined as follows:
+	\begin{align*}
+	(a,b) \cdot (c,d) &= (ac,bd) \\	
+	(a,b) + (c,d) &= (ad+bc,bd)
+	\end{align*}
+	As an exercise: check this is a field!
+\end{definition}
+For example, $FF(\Z) = \Q$. Now, let's state the following theorem about PIDs and UFDs. We'll work towards the proof in the following lemmas and definitions.
+
+\begin{theorem}{}{}
+Every PID is a unique factorization domain.	
+\end{theorem}
+% fields < euclidean domains < PIDs < UFDs < integral domains < commutative rings
+\begin{lemma}{}{}
+If $R$ is a PID, then every ascending chain of ideals stabilizes.\footnote{This is called the ascending chain condition (ACC).} That is, if 
+	$$(a_1) \subseteq (a_2) \subseteq (a_3) \subseteq \cdots$$
+then there exists some $N$ such that $(a_N) = (a_{N+1})$.	
+\end{lemma}
+\begin{proof}
+Consider $I = \cup_{i \ge 1} (a_i)$, and claim that $I$ is an ideal. We'll prove this:
+\begin{itemize}
+\item \textbf{Closure under addition} - given $x,y \in I$, there exists $m \in \Z$ such that $x \in (x_m)$, and similarly $\exists n\in\Z$ such that $y \in (x_n)$. Then $(a_{\max(m,n)}) \ni x,y$, so $I \supseteq (a_{\max(m,n)}) \ni x+y$.
+\item \textbf{Closure under multiplication} - check that $rx \in I$ if $x \in I$.
+\item \textbf{Subgroup} - check that additive inverses exist in $I$.
+\end{itemize}
+So $I = (a)$ for $a \in R$, so $a \in (a_N)$. Therefore $(a_N) = I = (a_{N+1}) = (a_{N+2}) = \cdots$
+\end{proof}
+\begin{definition}{}{}
+A ring is called $\textbf{Noetherian}$ if every ideal is finitely generated.	
+\end{definition}
+\begin{theorem}{}{}
+The ascending chain condition (ACC) holds for all Noetherian rings.	% I LOVE NOETHERIAN RINGS!!!!!
+\end{theorem}
+Now, let's return to the theorem that all PIDs are UFDs. The proof is below:
+\begin{proof}
+	Let $p \in R$ where $R$ is a PID with $p \ne 0$ and non-unit. We'll show the following experessions:
+	\begin{enumerate}
+	\item Every such $p$ can be factored into irreducibles.
+	\item Every such expression is unique up to	reordering/associates.
+	\end{enumerate}
+We'll prove the first condition now. If $p$ is irreducible, we win. Otherwise, let's say $p = p_1p_2$ where $p_1,p_2$ are non-zero, non-unit elements. If $p_1,p_2$ are irreducible, then we're done. Therefore, let's assume that $p_1 = p_{11}p_{12}$ for $p_{11}, p_{12}$ non-zero, non-units, continuing in this way forever. Observe that
+	$$(p) \subseteq (p_1) \subseteq (p_11) \subseteq \cdots$$
+	is an ascending chain which stabilizes by the previous element. Therefore, this process stops, so we can factor $p$ into irreducibles.
+	
+	Now, we need to check the second condition. We'll prove this via induction on $n = $ the number of factors in a minimal factorization of $p$.
+	\begin{itemize}
+	\item \textbf{Base case} - if $n = 1$, then $p$ is irreducible.
+	\item \textbf{Inductive step} - if $n > 1$, say that $p=r_1\cdots r_n = q_1\cdots q_m$ for $m \ge n$ (where $r_i, q_i$ are irreducible). Then $r_1$ irreducible $\implies r_1$ is prime by the previous lemma. Say $r_1\mid q_1$ without loss of generality. Then $q_1 = r_1\cdot u$ for some unit $u$.
+	
+	At this point, we're essentially done. We have ``peeled off" a $q_1$ and $r_1$ from both expressions of $p$, and the statement follows by induction. More formally:
+	$$p = r_1(r_2 \cdots r_n) = (u\cdot r_1)(q_2\cdots q_m)$$
+	so we're done by the inductive hypothesis applied to $r_2 \cdots r_n = u\cdot q_2 \cdots q_m$.
+	\end{itemize}
+\end{proof}
+\begin{theorem}{}{}
+	If $R$ is a UFD, then $R[x]$ is too. (Converse holds too!)
+\end{theorem}
+Here's the key idea behind this theorem: if $F$ is a field, then $F[x]$ is a Euclidean domain. We'll use properties of UFDs and ``bootstrap up" to this claim about fields and prove the equivalent statement for UFDs.	
+
+As an example, consider $x^2 - 1 \in \Z[x]$. We can write $x^2 - 1 = (2x-2)(\frac{1}{2}x + \frac{1}{2}) = (x-1)(x+1)$, and we want to show that these two expressions are equivalent. To do so, we'll use the field of fractions, as discussed on HW 11.
+
+\begin{lemma}{Gauss's Lemma}{}
+	Let $R$ be a UFD, with $F = \on{Frac}(R)$. Further, let $p(x) \in R[x]$ with $p(x) = A(x)\cdot B(x)$, with $A,B \in F[x]$. Then, there exists $r,s \in F \,\backslash\, \{0\}$, such that $a(x) = r\cdot A(x)$, $b(x) = s\cdot B(x)$, and $p(x) = a(x)\cdot b(x)$ and also $a(x), b(x) \in R[x]$.
+\end{lemma}
+\begin{proof}
+Clearing denominators, say $d \cdot p(x) = a'(x)\cdot b'(x)$ for $d \in R \,\backslash\, \{0\}$, $a', b' \in R[x]$. If $d$ is a unit, then we're done. Otherwise, let $d = p_1\cdots p_n$ where each $p_i\in R$ is irreducible. Without loss of generality, let us reduce both sides of the following equality modulo $p_1$:
+	$$p_1\cdots p_n\cdot p(x) = a'(x)\cdot b'(x)$$
+In other words, consider images under $R[x] \to R/(p_1)[x]$. Note that $p_1$ irreducible $\implies p_1$ prime, so $R/(p_1)[x]$ is an integral domain. We have $0 = \overline{a'(x)}\cdot\overline{b'(x)}$, so without loss of generality, let's say that $\overline{a'(x)} = 0$, i.e., $p_1\mid a'(x)$. Therefore, we can divide both sides of the equation by $p_1$, so here's the new equation:
+	$$p_2\cdots p_n\cdot p(x) = \frac{a'(x)}{p_1}b'(x)$$
+Proceed similarly on $p_2, \ldots, p_n$ to complete the proof.
+\end{proof}
+\vspace{0.3cm}
+\begin{example}{}{}
+To make this proof more clear, let's return to the case where $x^2 - 1 = (2x - 2)(\frac{1}{2}x + \frac{1}{2})$. As before, we can clear out denominators via multiplication by two:
+$$2(x^2 - 1) = (2x-2)(x+1)$$
+Then in $\Z/2\Z$, this reduces to $0 = 0\cdot (x+1)$. Then, we know that $2\mid 2x-2$, so we can divide both sides of the equation to get $(x^2 - 1) = (x-1)(x+1)$ as desired.	
+\end{example}
+
+\begin{corollary}{}{}
+Let $R$ be a UFD, with $F = \on{Frac}(R)$. Say $p(x) \in R[x]$is irreducible or an element of $F[x]$. If a GCD of coefficients of $p$ is $1$, then $p$ is irreducible over $R[x]$.
+\end{corollary}
+For example, $2x + 2$ is irreducible in $\Q[x]$, but not in $\Z[x]$.
+\begin{proof}
+If $p(x) = a(x)b(x)$ is reducible over $R[x]$ and if $\gcd(\text{coefficients of $p$}) = 1$, then $a,b$ are nonconstant polynomials. So $a(x)b(x)$ is a factorization over $F[x]$, too.
+\end{proof}
+Now, we'll prove the previous theorem: $R$ is a UFD $\iff R[x]$ is a UFD.
+\begin{proof}
+	Say $p(x) \in R[x]$. By squeezing out the GCD of coefficients, we may assume that $\gcd(\text{coefficients of $p$}) = 1$. That is, using the fact that $R$ is a UFD, write $p(x) = d\cdot \widetilde{p}(x)$ where $d \in R \,\backslash\,\{0\}$ and $\widetilde{p}$ satisfies the GCD condition.
+	
+	Then $p(x) = q_1(x)\cdots q_n(x)$ with $q_i \in R[x]$ that are irreducible over $F[x]$ (using Gauss's lemma). Then $q_i$ are also irreducible over $R[x]$ since the GCD of coefficients of each $q_i$ is $1$ (follows from previous corollary).
+	
+	For uniqueness of factorization, let's say
+	$$p(x) = q_1'(x) \cdots q_n'(x)$$ is another factorization. We can assume these factorizations have the same number of terms since $F[x]$ is a field and therefore a UFD. Then $q_i,q_i'$ are associates in $F[x]$, and therefore they're also associates in $R[x]$.
+\end{proof}
+
+\begin{corollary}{}{}
+If $R$ is a UFD, then $R[x_1,\ldots,x_n]$ is too.
+\end{corollary}
+\begin{proof}
+Via induction on $n$.	
+\end{proof}
+
+\section{Fields}
+Recall some examples of fields: $\Q$, $\R$, and $\C$ are all fields. However, we might also consider the finite field $\mathbb{F}_p = \Z/p\Z$, or the field of fractions $\on{Frac}(R)$ over any integral domain $R$. We can even consider fields of fractions based on polynomial rings, e.g., $\Q(x) = \on{Frac}(\Q[x])$ and $\mathbb{F}_p(x) = \on{Frac}(\mathbb{F}_p[x])$.
+
+\begin{theorem}{}{}
+Any nonzero homomorphism of a field into a ring is injective.	
+\end{theorem}
+\begin{proof}
+Let $\varphi : K \to R$ be such a homomorphism. Then $\ker\varphi \subseteq K$ is an ideal, but $\ker\varphi \ne K$ by the assumption this is a nonzero homomorphism. Therefore, $\ker\varphi = 0$.	
+\end{proof}
+
+\begin{definition}{}{}
+The \textbf{characteristic} of a field $F$ is the smallest $p \in \Z_{>0}$ such that $0 = 1+\cdots+1$ (repeated $p$ times), or is defined as $0$ if no such $p$ exists.
+\end{definition}
+
+\begin{definition}{}{}
+The \textbf{prime subfield} of $F$ is the smallest subfield containing $1$.
+\end{definition}
+
+\begin{theorem}{}{}
+Any intersection of subfields of a field $F$ is a field.	
+\end{theorem}
+
+\begin{theorem}{}{}
+Let $F$ be a field. Either $\on{char}(F) = 0$ and the prime subfield is $\Q$, or $\on{char}(F) = p$ and the prime subfield is $\Z/p\Z$	
+\end{theorem}
+\begin{proof}
+Consider the following homomorphism:
+\begin{align*}
+\varphi : \ &\Z \to F \\
+&1 \mapsto 1 \\
+&n \mapsto 1 + \cdots + 1 \text{ (repeated $n$ times)}
+\end{align*}
+First, let's consider the case in which $\varphi$ is injective. Then we have $\on{char}(F) = 0$. Therefore, $\varphi$ sends nonzero elements of $\Z$ to the units in $F$ such that the below left diagram commutes:
+	\[ \begin{tikzcd}
+	\Z\arrow[swap]{d}{i}\arrow{rd}{\varphi} & {} \\%
+	\Q\arrow[swap]{r}{\widetilde{\varphi}} & F
+	\end{tikzcd}
+	\phantom{testingevenmore}
+	\begin{tikzcd}
+	\Z\arrow[swap]{d}{}\arrow{rd}{\varphi} & {} \\%
+	\Z/n\Z\arrow[swap]{r}{\text{inj.}} & F
+	\end{tikzcd}
+	\]
+	Therefore, there exists a unique $\widetilde{\varphi}$ such that this diagram commutes. Then, $\widetilde{\varphi} \ne 0$ so $\widetilde{\varphi}$ is injective by the previous proposition, and $\Q$ is a prime subfield.
+	
+	Now, we'll consider the case where $\varphi$ is not injective (above right diagram). By the first isomorphism theorem, $\on{im}\varphi \cong \Z/\ker\varphi$ so that $\Z/n\Z \subseteq F$. Then, $n$ must be prime, or else this ring would have zero divisors, which cannot occur because then there would be zero divisors in $F$. Therefore $\Z/n\Z$ is a prime subfield.
+\end{proof}
+
+\begin{definition}{}{}
+If $F \subseteq K$ for fields $F,K$, then we say ``$K$ over $F$," often denoted $K/F$, is a \textbf{field extension}.\footnote{This is equivalent to the concept of a subfield. Don't confuse it with quotients!}
+\end{definition}
+In this situation, note that $K$ has the structure of an $F$-vector space. That is, given elements $a \in F$, $x \in K$, then $a\cdot x = ax \in K$. For example, $\C/\R$ makes $\C$ an $\R$-vector space.
+
+\begin{definition}{}{}
+	The \textbf{degree} of the field extension $K/F$ is $[K : F] = \on{dim}_FK$, i.e., the dimension of $K$ as an $F$-vector space.
+\end{definition}
+As an example of degree, note that $[\C : \R] = 2$. Meanwhile, $[\R : \Q] = \infty$ by convention.
+
+\subsection{Field extensions to solve polynomial equations}
+Suppose $p(x)$ is an irreducible polynomial in $F[x]$ for a field $F$, and we wish it hat a root! For example, $x^2 + 1 \in \R[x]$ is such a polynomial.
+
+Now, let $K = F[x]/(p(x))$. Note that $p$ is irreducible $\implies p$ is prime $\implies F[x]/(p(x))$ is an integral domain. In fact, $K$ is a field, since every nonzero prime ideal in a PID is maximal, and we quotiented by a maximal ideal. Further, there is an injective map $F \hookrightarrow F[x]/(p(x)) = K$. Note that this map is nonzero, and therefore $K/X$ is a field extension in which $p$ now has a root.
+
+For example, the polynomial $x^2 + 1$ now has a root in $\R[x]/(x^2 + 1)$. However, we can't just say the solution is $i = \sqrt{-1}$, rather, we can express this as an equivalence class in $\R[x]/(x^2 + 1)$. For example, the element $\bar{x} = x + (x^2 + 1)$ is a root! Then $p(\bar{x}) = \overline{p(x)} = 0 \in K$.
+
+Here's a more specific example: $\bar{x}^2 = (x + (x^2 + 1))^2 + (1 + (x^2 + 1)) = |x^2 + (x^2 + 1)| + |1 + (x^2 + 1)| = x^2 + 1 + (x^2 + 1) = 0 \in \R[x]/(x^2+1)$. Stare at this.
+
+Note that if $F \subseteq K$ is a subfield, then we can plug in $a \in K$ into $p(x) \in F[x] \subseteq K[x]$.
+% \subsubsection{More cans: a can of worms}
+Warning: on $\mathbb{F}_2 = \Z/2\Z$, $x^2 + x$ and $0$ give the same values on $\{ 0,1 \}$.
+
+\begin{theorem}{}{}
+Let $F$ be a field. Say $p(x) \in F[x]$ is an irreducible polynomial of degree $n$. Write $\theta = \bar{x} = x + (p(x)) \in F[x]/(p(x)) =: K$. Then, $1,\theta,\theta^2,\ldots,\theta^{n-1}$ is a basis for $K$ as an $F$-vector space. $[K : F] = n$.
+\end{theorem}
+\begin{proof}
+First, we'll check that these elements span the vector space: if $a(x) \in F[x]$, then the Euclidean algorithm on $F[x]$ implies that:
+	$$a(x) = q(x)p(x) + r(x) \phantom{space} \on{deg}(r(x)) < n \text{ or } r = 0$$	
+	Thus, $a(x) + (p(x)) \in \on{span}(1,\theta,\ldots,\theta^{r-1})$. Specifically, $r(x) = r_0 + r_1x + \cdots + r_{n-1}x^{n-1}$. Then, $a(x) + (p(x)) = r_0 + r_1\theta + \cdots + r_{n-1}\theta^{n-1}$.
+
+We have checked the span, so now let's see that these elements are linearly independent. Given $c_0,\ldots,c_{n-1} \in F$ such that $c_0 + c_1\theta + \cdots + c_{n-1}\theta^{n-1} = 0 \in K \iff c_0 + c_1x + \cdots + c_{n-1}x^{n-1} \in (p(x)) \implies c_0 = \cdots = c_{n-1} = 0$, so they are independent.
+\end{proof}
+\vspace{0.5cm}
+\begin{example}{}{}
+Let $p(x) = x^2 + x + 1 \in \mathbb{F}_2[x]$. Note that $p$ is irreducible, and let $K = \mathbb{F}_2[x]/(x^2 + x + 1)$. Note that $[K : F] = 2 \implies |K| = 4$. Then $1,x$ form a basis for $K$ over $\mathbb{F}_2$. Here's how multiplication and addition work:
+\begin{center}
+\begin{tabular}{c|cccc}
++ & 0 & 1 & x & 1+x \\\hline
+0 & 0 & 1 & x & 1+x \\
+1 & 1 & 0 & 1+x & x \\
+x & x & 1+x & 0 & 1 \\
+1+x & 1+x & x & 1 & 0	
+\end{tabular}
+\phantom{spacing}
+\begin{tabular}{c|cccc}
+$\cdot$ & 0 & 1 & x & 1+x \\\hline
+0 & 0 & 0 & 0 & 0 \\
+1 & 0 & 1 & x & 1+x \\
+x & 0 & x & 1+x & 1 \\
+1+x & 0 & 1+x & 1 & x	
+\end{tabular}
+\end{center}
+\fakeline
+\end{example}
+
+\begin{theorem}{}{}
+	There us a unique (up to isomorphism) field of each prime power.\footnote{The proof of this theorem is not within the scope of MATH 1530. (Non-examinable.)}
+\end{theorem}
+Recall: we showed that if $p(x) \in F[x]$ is an irreducible polynomial of degree $n$, then $K = F[x]/(p(x))$ is a field extension over $F$. So if $F = \mathbb{F}_p = \Z/p\Z$, then $\on{dim}_FK = n$ so $|K| = p^n$.
+\begin{theorem}{}{}
+	Any finite field must have prime power order.
+\end{theorem}
+Indeed, such a field a finite-dimensional vector space over its prime subfield $\mathbb{F}_p$, so its order is $p^n$ for some $n$. Now, let's say $K/F$ is a field extension:
+\begin{definition}{}{}
+	If $\{\alpha_i\}_{i \in I}$ is a collection of elements of $K$, let $F(\{\alpha_i\}_{i \in I})$ be the smallest subfield of $K$ containing $F$ and each $\alpha_i$.\footnote{"The field generated by $\{\alpha_i\}$ over $F$."}
+\end{definition}
+	We need to check that the smallest subfield is equal to the intersection of all subfields of $K$ containing $\{\alpha_i\}$. In other words:
+	$$\cap_{K \supseteq E \supseteq F} E = F(\{\alpha_i\})$$	
+
+If $\{\alpha_i\} \subseteq F$, then $F(\{\alpha_i\}) = F$ and conversely. For example, consider $\Q(\sqrt{2}) \subseteq \R$. Then $\Q(\sqrt{2}) = \{ a+b\sqrt{2} : a,b\in \Q \}$. Check that this is a field.
+
+\subsection{More field extensions}
+Note that $\Q(\sqrt{2}) \cong \Q[x]/(x^2-2)$ where $p(x) = x^2-2$.
+
+\begin{theorem}{}{}
+Let $K/F$ be a field extension such that $K$ has a root $\alpha \in K$ of an irreducible polynomial $p(x) \in F[x]$. Then $F(\alpha) \cong F[x]/(p(x))$.	
+\end{theorem}
+\begin{proof}
+We want to use the first isomorphism theorem, so let's define a map $\varphi : F[x] \to F(\alpha)$ be the ``plugging-in-$\alpha$" homomorphism, i.e., $\varphi(r(x)) = r(\alpha) \in K$. Note that $r(\alpha) = F(\alpha)$. Then $\ker\varphi \ni p(x)$ or $\ker\varphi \supseteq (p(x))$, so the following diagram commutes:
+	\[ \begin{tikzcd}
+	F[x]\arrow[swap]{d}{\pi}\arrow{rd}{\varphi} & {} \\%
+	F[x]/(p(x))\arrow[swap]{r}{\overline{\varphi}} & F(\alpha)
+	\end{tikzcd}
+	\]
+and is called the universal property of quotients. Note that $\overline{\varphi}$ is a nonzero map from a field, and is therefore injective. Since $\on{im}\overline{\varphi} \subseteq F(\alpha)$, we conclude that $F[x]/(p(x)) = \on{im}\overline{\varphi} = F(\alpha)$ as desired.
+\end{proof}
+\begin{theorem}{Universal Property of Quotients}{}
+	If $\varphi : R \to S$ is a ring homomorphism such that $I \subseteq R$ with $\ker\varphi \supseteq I$., then $\varphi$ factors as shown below:
+	\[ \begin{tikzcd}
+	R\arrow[swap]{d}{\pi}\arrow{rd}{\varphi} & {} \\%
+	R/I\arrow[swap]{r}{\overline{\varphi}} & S
+	\end{tikzcd}
+	\]
+	In other words, there exists a unique $\overline{\varphi}$ such that $\varphi = \overline{\varphi}\pi$.
+\end{theorem}
+
+\subsection{Algebraic extensions}
+Let $K/F$ be a field extension.
+\begin{definition}{}{}
+$\alpha \in K$ is \textbf{algebraic} over $F$ if it's the root of some nonzero polynomial $p(x) \in F[x]$. Otherwise, we call it \textbf{transcendental}.	
+\end{definition}
+\begin{definition}{}{}
+	We say $K/F$ is \textbf{algebraic} if every $\alpha \in K$ is algebraic.
+\end{definition}
+\begin{example}{}{}
+Here are some examples of algebraic and non-algebraic fields:
+\begin{itemize}
+\item $F/F$ is algebraic. That is, for any $\alpha \in F$, then $\alpha$ is a root of $x - \alpha \in F[x]$.
+\item $\R/\Q$ is not algebraic. E.g., $e$ and $\pi$ are transcendental.
+\item $F(x)/F = \on{Frac}(F[x])$ is not algebraic.
+\end{itemize}
+Given these examples, let's ask: is $\Q(\sqrt{2}) = \{ a + b\sqrt{2} : a,b \in \Q \}$ an algebraic extension over $\Q$? Well, $\sqrt{2}$ is algebraic, since $x^2 - 2 = 0$. For the general case, choose three elements $1, \alpha, \alpha^2 \in \Q(\sqrt{2})$. For example, we might choose
+	\begin{align*}
+	1 &= 1 + 0\sqrt{2} \\
+	\alpha &= 3 + 4\sqrt{2} \\
+	\alpha^2 &= 41 + 24\sqrt{2}	
+	\end{align*}
+There are three elements in this two-dimensional $\Q$-vector space $\Q(\sqrt{2})$, so they are dependent over $\Q$. (I.e., $6\alpha - \alpha^2 = -23$.) Therefore, $\alpha$ must be algebraic.
+\end{example}
+
+\begin{theorem}{}{}
+Every finite extension $K/F$ is algebraic.	
+\end{theorem}
+\begin{proof}
+Given $\alpha \in K$, the $n+1$ elements $1,\alpha,\alpha^2,\ldots,\alpha^n$ are linearly independent in the $F$-vector space $K$. Therefore, there exist $c_0,\ldots,c_n$ not all zero such that $$c_0 + c_1\alpha + \cdots + c_n\alpha^n = 0$$
+so therefore the field extension is algebraic.	
+\end{proof}
+\begin{definition}{}{}
+A polynomial $p(x) \in F[x]$ is \textbf{monic} if the leading coefficient (i.e., on the highest degree term) is $1$. 	
+\end{definition}
+\begin{theorem}{}{}
+	Let $\alpha \in K$ be algebraic over $F$. Then there is a unique, irreducible monic polynomial $m_{\alpha,F}(x) \in F[x]$ having $\alpha$ as a root, and every polynomial for which $\alpha$ is a root is a polynomial multiple of $m_{\alpha, F}$. This $m_{\alpha,F}$ is a \textbf{minimal polynomial}.
+\end{theorem}
+For example, consider $\C/\R$ with $\alpha = i$. Then the minimal polynomial is $x^2 + 1$, so any polynomial with root $i$ is divisible by $x^2+1$. Also, observe $\C \cong \R[x]/(x^2+1)$.
+\begin{proof}
+Consider the following ``plugging-in-$\alpha$" homomorphism:
+	\begin{align*}
+	\varphi : \ &F[x] \to F(\alpha) \subseteq K \\
+	&p(x) \mapsto p(\alpha)	
+	\end{align*}
+We have shown previously that $\varphi$ is a homomorphism, with $\on{im}\varphi = F(\alpha)$. Note that any $p(\alpha) \in F(\alpha)$.
+
+On the other hand, if $q$ is any nonzero polynomial with $q(\alpha) = 0$, then if $\on{deg}q = n$, we have $F(\alpha) = \{  c_0 + c_1\alpha + \cdots + c_{n-1}\alpha^{n-1} : c_i \in F\}$. By the first isomorphism theorem, $F[x]/\ker\varphi \cong F(\alpha)$. Note that $\ker\varphi$ is ideal in $F[x]$, so $\ker\varphi=(p(x))$ for some $p$. Moreover, $(p(x))$ is maximal, and therefore prime, and therefore $p(x)$ is irreducible.
+
+There's a unique choice of monic generator, which is the polynomial we want.
+\end{proof}
+
+\subsection{The final class: more field extensions and their applications}
+Let $K/F$ be a field extension. Recall the definition of minimal polynomials: if $\alpha \in K$ is algebraic over $F$, then let $m_{\alpha,F}(x)$ be a polynomial in $F[x]$ of smallest degree, subject to the condition that $\alpha$ is a root. Claim that $m$ must be irreducible, and re-scaling, we can assume that $m$ is monic. Then we call $m$ the minimal polynomial of $\alpha$.
+
+We showed that there is an isomorphism $F[x]/(m(x)) \cong F(\alpha)$ sending $\overline{p(x)}$ to $p(\alpha)$. It follows that, letting $n = \on{deg}(m(x))$, then:
+	$$F(\alpha) = \{ c_0 + c_1\alpha + c_2\alpha^2 + \cdots + c_{n-1}\alpha^{n-1} : c_i \in F \}$$
+Note that $p(x) = q(x)m(x) + r(x)$ where $r(x) = 0$ or $\on{deg}(r(x)) < n$. We say that $\alpha$ has degree $n$ over $F$ in this case.
+
+\begin{theorem}{}{}
+Say $F \subseteq K \subseteq L$ are fields. Then $[L:F] = [L:K]\cdot[K:F]$.\footnote{Interpreted appropriately for infinite degree extensions.}
+\end{theorem}
+\begin{proof}
+We'll consider an example of how this might work for the finite case. Say that $n = [L:K]$ and $m = [K:F]$. Then, we can say that $\alpha_1,\ldots,\alpha_m$ is a basis for $K$ as an $F$-vector space; similarly, let $\beta_1,\ldots,\beta_n$ be a basis for $L$ as a $K$-vector space. Then, verify that $\alpha_i\beta_j \in L$ form a basis for $L$ as an $F$-vector space.	
+\end{proof}
+
+\begin{theorem}{}{}
+Let $K/F$ be a field extension, and say $\alpha_1,\ldots,\alpha_k \in K$ are algebraic elements of degrees $n_1,\ldots,n_k$, respectively.	Then:
+	\begin{align*}
+		[F(\alpha_1,\ldots,\alpha_k) : F] &= [F(\alpha_1,\ldots,\alpha_k) : F(\alpha_1,\ldots,\alpha_{k-1})] \\
+		&= [F(\alpha_1,\ldots,\alpha_{k-1}) : F(\alpha_1,\ldots,\alpha_{k-2})] \\
+		&\phantom{spacing}\vdots \\
+		&= [F(\alpha_1) : F]
+	\end{align*}
+which is less than $n_k\cdots n_1$.
+\end{theorem}
+\begin{proof}
+Note that $F(\alpha_1,\ldots,\alpha_i) = F(\alpha_1,\ldots,\alpha_{i-1})(\alpha_i)$ has degree, over $F(\alpha_1,\ldots,\alpha_{i-1})$, at most 	$n_i$. Indeed, $m_{\alpha_i,F} \in F[x] \subseteq F(\alpha_1,\ldots,\alpha_{i-1})[x]$ has degree $n_i$.
+\end{proof}
+\vspace{0.5cm}
+\begin{example}{}{}
+$\Q(\sqrt{2}, \sqrt{3}) \subseteq \R$ is an extension of $\Q$. We can write $\Q \subseteq \Q(\sqrt{2}) = \{a + b\sqrt{2} : a,b \in \Q\} \subseteq \Q(\sqrt{2},\sqrt{3})$. Now, let's check that $[\Q(\sqrt{2},\sqrt{3}) : \Q(\sqrt{2})] = 2$. Indeed, we know that this value is either $1$ or $2$, so let's just check that it's not equal to $1$. If it were, then $\sqrt{3} \in \Q(\sqrt{2})$. For the sake of contradiction, suppose that $\sqrt{3} = a+b\sqrt{2}$. Then $3 = (a^2 + 2b^2) + 2ab\sqrt{2}$, but this means $\sqrt{2}$ is rational, which is a contradiction.
+
+Then $\Q(\sqrt{2},\sqrt{3}) = \{a + b\sqrt{3} : a,b \in \Q(\sqrt{2})\} = \{ (a_1 + a_2\sqrt{2}) + (b_1 + b_2\sqrt{2})\sqrt{3} : a_i,b_i \in \Q \}$, so $[\Q(\sqrt{2},\sqrt{3}) : \Q] = 4$.
+\end{example}
+
+\begin{corollary}{}{}
+	Let $K/F$ be a field extension. The algebraic elements of $K$ over $F$ form a field.
+\end{corollary}
+This corollary is quite good. For example, we might be able to think of \textit{obvious} polynomials that have $\sqrt{2}$ and $\sqrt[10]{5}$ as roots, so these elements are algebraic. But can we think of a polynomial such that $\sqrt{2} + \sqrt[10]{5}$ is a root? Not easily, but this corollary tells us one must exist. Now, let's prove it:
+\begin{proof}
+	Let $\alpha, \beta \in K$ be algebraic. We want to show that $\alpha + \beta$, $\alpha - \beta$, $\alpha\beta$, and $\alpha/\beta$ (if $\beta \ne 0$) are all algebraic. These all lie in $F(\alpha,\beta)$, which is finite over $F$ (since $[F(\alpha,\beta) : F] \le \on{deg}\alpha\cdot\on{deg}\beta$), and finite extensions are algebraic.
+\end{proof}
+For example, in $\C/\Q$ we can define $\bar{\Q}$ to be the elements of $\C$ that are algebraic over $\Q$. (Called the ``field of algebraic numbers.") The following material is non-examinable, but cool: $\bar{\Q}$ is \textit{countable}, meaning it injects (as a set) into $\Z$, whereas $\C$ is uncountable.
+
+\subsubsection{Impossibility of doubling the cube}
+Note: the following example is similar to the impossibility of trisecting angles, ``squaring the circle," etc. Such tasks are impossible to do using only a compass and a straightedge. That is, we can draw circle arcs and draw straight lines, and we can also mark points of intersection. We start off with the origin and $(0,1)$ marked on a graph, and we're tasked with trying to mark other points. However, there's not much else we can do. \frownie
+
+The question: can we mark $(\sqrt[3]{2},0)$ in this way? We can find ways to bisect lines, form right angles, and even mark square roots, but we cannot double the cube.
+
+At each step of this compass/straightedge construction, consider the field $F$ generated over $\Q$ by the coordinates of marked points. We can describe intersection of lines in this way: choose four points in $F$, where each pair of points defines a line. Therefore, the intersection coordinate must also be an element of $F$.
+
+Similarly, we can describe any circular arc via two points: the center and some point on the border of the circle. Then, the equation of this circle is $(x-a)^2 + (y-b^2) = c^2$ where $a,b,c^2 \in F$. We can also intersect this circle with a line $sx + ty = u$ which has $s,t,u \in F$. So, the new field is either $F$ or some degree $2$ extension of $F$.
+
+Intersecting two circles works in a similar way. We can write $(x-a)^2 + (y-b)^2 = c^2$ and $(x-a')^2 + (y-b')^2 = c'^2$ with $a,a',b,b',c,c' \in F$. The situation is therefore the same as where we intersected a line with a circle.
+
+In summary, the field $K$ at the end of this process is a degree $2^n$ extension over $\Q$ for some $n\in\Z$. Therefore, is it possible to double the cube? Say that $\sqrt[3]{2} \in K$: then, $\Q \subseteq \Q(\sqrt[3]{2}) \subseteq K$. We know that $[K:\Q] = [K \cdot \Q(\sqrt[3]{2})]\cdot[\Q(\sqrt[3]{2}) : Q]$, but this cannot happen: since $[K:\Q]$ is a power of two, and $[\Q(\sqrt[3]{2}) : Q] = 3$, we cannot have $3\nmid 2^n$ and therefore we cannot double the cube. Woohoo!
+\end{document}
+
+
+
+

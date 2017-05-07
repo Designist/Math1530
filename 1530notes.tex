@@ -1508,7 +1508,7 @@ Let $G$ be a finitely generated abelian group. Then:
 $$G \cong \Z^r \times Z/n_1\Z \times \cdots \times \Z/n_s\Z$$
 where $r \ge 0$ and $n_1,\ldots, n_2 \ge 2$ with $n_s\mid n_{s-1}\mid \cdots \mid n_1$. Moreover, this expression for $G$ is unique.
 \end{theorem}
-Note that the torsion quotient must be isomorphic to $\Z^r$. Up to isomorphism, the finite abelian groups of order $M$ are in bijection with sequences $n_s\mid n_{s-1}\mid\cdots\mid n_1$.
+Note that the torsion-free quotient must be isomorphic to $\Z^r$. Up to isomorphism, the finite abelian groups of order $M$ are in bijection with sequences $n_s\mid n_{s-1}\mid\cdots\mid n_1$.
 
 \begin{example}{}{}
 The abelian groups of order $8$ are (up to isomorphism):
@@ -1524,7 +1524,7 @@ $G_1, G_2 \le G_1 \times G_2$ via the theorem above.
 \end{corollary}
 Moreover, there exists $H_1, H_2 \le G_1 \times G_2$ with $G_1 \cong G_1$ and $H_2 \cong G_2$. Note also that $H_1 \cap H_2 = 1$ and $H_1H_2 = G_1 \times G_2$. Additionally: $H_1, H_2 \trianglelefteq G_1 \times G_2$.
 \begin{theorem}{}{}
-Let $G$ be a group, with $H,K \trianglelefteq G$. If $H \cup K = 1$ and $HK = G$, then $G \cong H \times K$.
+Let $G$ be a group, with $H,K \trianglelefteq G$. If $H \cap K = 1$ and $HK = G$, then $G \cong H \times K$.
 \end{theorem}
 \begin{proof}
 Let's define the following function and claim that it is an isomorphism:
@@ -1580,7 +1580,7 @@ Returning to the can of beans, let $G = \R/2\pi\Z$ and $K = \{ \pm 1 \}$. Consid
 \end{align*}
 Claim that $R \cong \R/2\pi\Z \rtimes_{\varphi} \{ \pm 1 \}$, e.g., $(\theta, -1)\cdot (\theta', 1) = (\theta - \theta', -1)$.
 \end{example}
-Remark that tilde over $H = \{ (h,1) : h \in H \} \trianglelefteq H \rtimes_{\varphi} K$ and tilde over $K = \{ (1,k) : k\in K \} \le H \rtimes_{\varphi} K$ but is not necessarily normal. Further, note:
+Remark that $\widetilde{H} = \{ (h,1) : h \in H \} \trianglelefteq H \rtimes_{\varphi} K$ and $\widetilde{K} = \{ (1,k) : k\in K \} \le H \rtimes_{\varphi} K$ but is not necessarily normal. Further, note:
 \begin{align*}
 (1,k) \cdot (h,1) \cdot (1,k)^{-1} &= (1(k\cdot h), k)\cdot (1,k^{-1}) \\
 &= ((k\cdot h)(k\cdot 1), kk^{-1}) \\
@@ -1646,7 +1646,7 @@ Given a subgroup of $G$ of order $p^{\beta}$ for some $\beta \le \alpha$ and a S
 \begin{example}{}{}
 Let's show that $\Z/10\Z$ and $D_{10}$ are the only groups of order $10$ up to isomorphism. Let $G$ be a group with $|G| = 10$, so the Sylow $p$-subgroups must have orders $2$ or $5$ (the divisors of $10$).
 
-Note that $n_5 \equiv 1 \pmod{5}$ and $n_5\mid 2$, so $n_5 = 1$. Thus $N \trianglelefteq G$ has order $5$. Similarly, $n_2 \equiv 1 \pmod{2}$, and $n_2 \mid 5$, so $n_2 = 1$ or $5$. Indeed, if $n_2 = 1$, then $H \trianglelefteq G$ has order $2$. Then:
+Note that $n_5 \equiv 1 \pmod{5}$ and $n_5\mid 2$, so $n_5 = 1$. Thus $N \trianglelefteq G$ has order $5$. Similarly, $n_2 \equiv 1 \pmod{2}$, and $n_2 \mid 5$, so $n_2 = 1$ or $5$. Indeed, if $n_2 = 1$, then $H \trianglelefteq G$ has order $2$. Then:
 $$G \cong H \times N \cong \Z/2\Z \times \Z/5\Z \cong \Z/10\Z$$
 by the Chinese Remainder Theorem. In the other case where $n_2 = 5$, then let $H \le G$ have order $2$. Then $G$ is a semidirect product $N \rtimes_{\varphi} H$ for some $\varphi$. Note that $\varphi : \Z/2\Z \to \operatorname{Aut}(\Z/5\Z)$. The only order $2$ automorphisms of $\Z/5\Z$ are $\operatorname{id}$ and $\operatorname{neg}$. If $\varphi(\bar{1}) = \operatorname{id}$, then $G = N\times H \cong \Z/10\Z$. On the other hand, if $\varphi(\bar{1}) = \operatorname{neg}$, then $G \cong D_{10}$.
 \end{example}
